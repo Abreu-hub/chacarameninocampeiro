@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Gerenciador de Vídeos com Senha</title>
+  <style>
+    body {
+      font-family: 'Orbitron', sans-serif;
+      background: url('minicraft.jfif') no-repeat center center fixed;
+      background-size: cover;
+      color: white;
+      margin: 0;
+      padding: 20px;
+      min-height: 100vh;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 10px;
+      text-shadow: 2px 2px 6px #000;
+    }
+
+    #senhaForm {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: rgba(0,0,0,0.7);
+      padding: 10px;
+      border-radius: 8px;
+      box-shadow: 0 0 12px #000;
+      z-index: 1000;
+    }
+
+    #videoForm {
+      max-width: 500px;
+      margin: 20px auto;
+      background: rgba(0,0,0,0.7);
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 12px #000;
+      display: none;
+    }
+
+    label {
+      display: block;
+      margin: 10px 0 5px;
+      font-weight: bold;
+    }
+
+    input[type="password"], input[type="text"], input[type="url"] {
+      width: 100%;
+      padding: 8px;
+      border-radius: 5px;
+      border: none;
+      font-size: 16px;
+    }
+
+    button {
+      margin-top: 15px;
+      background: #4caf50;
+      color: white;
+      padding: 10px;
+      width: 100%;
+      font-size: 16px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    #btnSair {
+      margin: 10px auto;
+      display: block;
+      background: #f44336;
+    }
+
+    .series-section {
+      max-width: 900px;
+      margin: 20px auto;
+      background: rgba(0,0,0,0.7);
+      padding: 20px;
+      border-radius: 12px;
+    }
+
+    .series-section h2 {
+      border-bottom: 2px solid #4caf50;
+      padding-bottom: 6px;
+      margin-bottom: 15px;
+    }
+
+    .videos-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 15px;
+    }
+
+    .video-card {
+      background: #222;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.8);
+      text-align: center;
+      color: white;
+    }
+
+    .video-card img {
+      width: 100%;
+      height: 140px;
+      object-fit: cover;
+    }
+
+    .video-card p {
+      margin: 10px 5px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Gerenciador de Vídeos</h1>
+
+<!-- Campo de senha fixo e discreto -->
+<div id="senhaForm">
+  <input type="password" id="senhaInput" placeholder="Senha" />
+  <button id="btnEntrar">Entrar</button>
+</div>
+
+<!-- Formulário para adicionar vídeos -->
+<div id="videoForm">
+  <label for="urlInput">URL do vídeo (YouTube):</label>
+  <input type="url" id="urlInput" placeholder="https://www.youtube.com/watch?v=XXXXXXX" />
+  
+  <label for="serieInput">Nome da Série:</label>
+  <input type="text" id="serieInput" placeholder="Ex: Minecraft, Shorts, Série 1" />
+  
+  <label for="nomeInput">Nome do Vídeo:</label>
+  <input type="text" id="nomeInput" placeholder="Ex: Minecraft EP01 - Começando" />
+
+  <button id="btnAdicionar">Adicionar Vídeo</button>
+  <button id="btnSair">Sair</button>
+</div>
+
+<div id="videosContainer" style="max-width: 900px; margin: 0 auto;"></div>
+
+<script>
+  const senhaCorreta = 'chacarameninocampeiroprojeto';
+
+  const senhaForm = document.getElementById('senhaForm');
+  const videoForm = document.getElementById('videoForm');
+  const btnEntrar = document.getElementById('btnEntrar');
+  const senhaInput = document.getElementById('senhaInput');
+  const btnSair = document.getElementById('btnSair');
+
+  const urlInput = document.getElementById('urlInput');
+  const serieInput = document.getElementById('serieInput');
+  const nomeInput = document.getElementById('nomeInput');
+  const btnAdicionar = document.getElementById('btnAdicionar');
+
+  const videosContainer = document.getElementById('videosContainer');
+
+  let videosData = {};
+
+  function carregarVideos() {
+    const data = localStorage.getItem('videosGerenciador');
+    if (data) {
+      videosData = JSON.parse(data);
+    }
+  }
+
+  function salvarVideos() {
+    localStorage.setItem('videosGerenciador', JSON.stringify(videosData));
+  }
+
+  function extrairIdYoutube(url) {
+    const reg = /(?:youtube\.com\/.*v=|youtu\.be\/)([^&\n?#]+)/;
+    const match = url.match(reg);
+    return match ? match[1] : null;
+  }
+
+  function mostrarVideos() {
+    videosContainer.innerHTML = '';
+    const series = Object.keys(videosData).sort();
+
+    if (series.length === 0) {
+      videosContainer.innerHTML = '<p style="text-align:center; font-size:18px;">Nenhum vídeo cadastrado ainda.</p>';
+      return;
+    }
+
+    series.forEach(serie => {
+      const section = document.createElement('section');
+      section.classList.add('series-section');
+
+      const title = document.createElement('h2');
+      title.textContent = serie;
+      section.appendChild(title);
+
+      const grid = document.createElement('div');
+      grid.classList.add('videos-grid');
+
+      videosData[serie].forEach(v => {
+        const id = extrairIdYoutube(v.url);
+        if (!id) return;
+
+        const card = document.createElement('div');
+        card.className = 'video-card';
+
+        const thumb = document.createElement('img');
+        thumb.src = `https://img.youtube.com/vi/${id}/0.jpg`;
+        thumb.alt = v.nome;
+
+        const nomeP = document.createElement('p');
+        nomeP.textContent = v.nome;
+
+        card.appendChild(thumb);
+        card.appendChild(nomeP);
+        grid.appendChild(card);
+      });
+
+      section.appendChild(grid);
+      videosContainer.appendChild(section);
+    });
+  }
+
+  btnEntrar.addEventListener('click', () => {
+    const senha = senhaInput.value.trim();
+    if (senha === senhaCorreta) {
+      senhaForm.style.display = 'none';
+      videoForm.style.display = 'block';
+      carregarVideos();
+      mostrarVideos();
+    } else {
+      alert('Senha incorreta!');
+    }
+  });
+
+  btnSair.addEventListener('click', () => {
+    videoForm.style.display = 'none';
+    senhaForm.style.display = 'block';
+  });
+
+  btnAdicionar.addEventListener('click', () => {
+    const url = urlInput.value.trim();
+    const serie = serieInput.value.trim();
+    const nome = nomeInput.value.trim();
+
+    if (!url || !serie || !nome) {
+      alert('Preencha todos os campos!');
+      return;
+    }
+
+    const id = extrairIdYoutube(url);
+    if (!id) {
+      alert('URL do YouTube inválida!');
+      return;
+    }
+
+    if (!videosData[serie]) {
+      videosData[serie] = [];
+    }
+
+    videosData[serie].push({ url, nome });
+    salvarVideos();
+
+    urlInput.value = '';
+    serieInput.value = '';
+    nomeInput.value = '';
+
+    mostrarVideos();
+  });
+
+  // Mostrar os vídeos ao carregar
+  carregarVideos();
+  mostrarVideos();
+</script>
+
+</body>
+</html>

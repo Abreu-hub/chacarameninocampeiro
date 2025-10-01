@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-DEKRSE4D4M"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-DEKRSE4D4M');
+</script>
+
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Gerenciador de Vídeos</title>
+  <style>
+    body {
+      font-family: 'Orbitron', sans-serif;
+      background: url('minicraft.jfif') no-repeat center center fixed;
+      background-size: cover;
+      color: white;
+      margin: 0;
+      padding: 20px;
+      min-height: 100vh;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 10px;
+      text-shadow: 2px 2px 6px #000;
+    }
+
+    .series-section {
+      max-width: 900px;
+      margin: 20px auto;
+      background: rgba(0,0,0,0.7);
+      padding: 20px;
+      border-radius: 12px;
+    }
+
+    .series-section h2 {
+      border-bottom: 2px solid #4caf50;
+      padding-bottom: 6px;
+      margin-bottom: 15px;
+    }
+
+    .videos-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill,minmax(220px,1fr));
+      gap: 15px;
+    }
+
+    .video-card {
+      background: #222;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.8);
+      text-align: center;
+      color: white;
+      cursor: pointer;
+    }
+
+    .video-card img {
+      width: 100%;
+      height: 140px;
+      object-fit: cover;
+    }
+
+    .video-card p {
+      margin: 10px 5px;
+      font-weight: bold;
+      font-size: 16px;
+    }
+
+    .modal-container {
+      display: none;
+      position: fixed;
+      z-index: 999;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.9);
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-content iframe {
+      width: 90vw;
+      height: 50vh;
+    }
+
+    .close-button {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      font-size: 30px;
+      color: white;
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Gerenciador de Vídeos</h1>
+
+<div id="videosContainer"></div>
+
+<div id="videoModal" class="modal-container">
+  <button class="close-button" id="closeModal">✖</button>
+  <div class="modal-content">
+    <iframe id="videoIframe" src="" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+  </div>
+</div>
+
+<script>
+  const videosContainer = document.getElementById('videosContainer');
+  const videoModal = document.getElementById('videoModal');
+  const videoIframe = document.getElementById('videoIframe');
+  const closeModal = document.getElementById('closeModal');
+
+  let videosData = {
+    "MINICRAFT: CHÁCARA MENINO CAMPEIRO - SÉRIE 01": [
+      { nome: "Capítulo 01 - INÍCIO", url: "https://www.youtube.com/watch?v=P21sLOKkR78" },
+      { nome: "Capítulo 02", url: "https://www.youtube.com/watch?v=tElS2yApB-g" },
+      { nome: "Capítulo 03", url: "https://www.youtube.com/watch?v=xZbCXdZwkUA" },
+      { nome: "Capítulo 04", url: "https://www.youtube.com/watch?v=AlOuXJZ_VOk" },
+      { nome: "Capítulo 05", url: "https://www.youtube.com/watch?v=rofobzGEARI" },
+      { nome: "Capítulo 06", url: "https://www.youtube.com/watch?v=iF39LWj17EE" },
+      { nome: "Capítulo 07", url: "https://www.youtube.com/watch?v=nalklog9GNA" },
+      { nome: "Capítulo 08", url: "https://www.youtube.com/watch?v=o3PBenrIykE" },
+      { nome: "Capítulo 09", url: "https://www.youtube.com/watch?v=Jof29cpbHPY" },
+      { nome: "Capítulo 10", url: "https://www.youtube.com/watch?v=JuEMDic71ns" },
+      { nome: "Capítulo 11", url: "https://www.youtube.com/watch?v=NKx-3SoAOos" },
+      { nome: "Capítulo 12", url: "https://www.youtube.com/watch?v=CxGMK6Dm7S4" },
+      { nome: "Capítulo 13", url: "https://www.youtube.com/watch?v=xoF_bagR77I" },
+      { nome: "Capítulo 14", url: "https://www.youtube.com/watch?v=uIpC5vh-yuo" },
+      { nome: "Capítulo 15", url: "https://www.youtube.com/watch?v=EoGkXRSbo-8" },
+      { nome: "Capítulo 16", url: "https://www.youtube.com/watch?v=OhrYn5TwjiU" }
+    ],
+    "MINICRAFT: CHÁCARA MENINO CAMPEIRO - SÉRIE 02": [
+      { nome: "EPISÓDIO 01 - INÍCIO", url: "https://youtube.com/watch?v=GB7xc9zG4yQ" },
+      { nome: "EPISÓDIO 02", url: "https://youtube.com/watch?v=Gzxbo5Swdfg" },
+      { nome: "EPISÓDIO 03", url: "https://youtube.com/watch?v=Dn5ftj4pdYM" },
+      { nome: "EPISÓDIO 04", url: "https://youtube.com/watch?v=-aMVRkrJIis" },
+      { nome: "EPISÓDIO 05", url: "https://youtube.com/watch?v=ZTWYiI422ig" },
+      { nome: "EPISÓDIO 06", url: "https://youtube.com/watch?v=bvMoyi1utAM" },
+      { nome: "EPISÓDIO 07", url: "https://youtube.com/watch?v=Xud3e5p59co" },
+      { nome: "EPISÓDIO 08", url: "https://youtube.com/watch?v=WACDs-3A5f4" },
+      { nome: "EPISÓDIO 09", url: "https://youtube.com/watch?v=RXQT09id7pc" },
+      { nome: "EPISÓDIO 10", url: "https://youtube.com/watch?v=nqB7VSvCBYs" },
+      { nome: "EPISÓDIO 11", url: "https://youtube.com/watch?v=Py4lHgYVeMo" },
+      { nome: "EPISÓDIO 12", url: "https://youtube.com/watch?v=YXk7hRwG2Vc" },
+      { nome: "EPISÓDIO 13", url: "https://youtube.com/watch?v=gSeow6Fy0_8" },
+      { nome: "EPISÓDIO 14 – FINAL", url: "https://youtube.com/watch?v=n66bq1lzdJw" }
+    ],
+    "MINICRAFT: CHÁCARA MENINO CAMPEIRO - SÉRIE 03": [
+      { nome: "EPISÓDIO 01 - INÍCIO", url: "https://youtube.com/watch?v=43iOBVVLTYM" },
+      { nome: "EPISÓDIO 02", url: "https://youtube.com/watch?v=damKOM7o1k0" },
+      { nome: "EPISÓDIO 03", url: "https://youtube.com/watch?v=fT2VgOqJozg" },
+      { nome: "EPISÓDIO 04", url: "https://youtube.com/watch?v=mSW7wUR1m0A" },
+      { nome: "EPISÓDIO 05", url: "https://youtube.com/watch?v=hlq1UwSMesI" },
+      { nome: "EPISÓDIO 06", url: "https://youtube.com/watch?v=nuuaYv8El2k" },
+      { nome: "EPISÓDIO 07", url: "https://youtube.com/watch?v=ghgccIPxgGA" },
+      { nome: "EPISÓDIO 08", url: "https://youtube.com/watch?v=kzDAJdG_p9w" },
+      { nome: "EPISÓDIO 09", url: "https://youtube.com/watch?v=7dha7FsNM9s" },
+      { nome: "EPISÓDIO 10", url: "https://youtube.com/watch?v=BDMrxAsLEfo" },
+      { nome: "EPISÓDIO 11", url: "https://youtube.com/watch?v=_D3QlABDqKI" },
+      { nome: "EPISÓDIO 12", url: "https://youtube.com/watch?v=MViyvwlGX9w" },
+      { nome: "EPISÓDIO 13", url: "https://youtube.com/watch?v=3OxfTZtZSvc" },
+      { nome: "EPISÓDIO 14", url: "https://youtube.com/watch?v=F14VIauYEw0" },
+      { nome: "EPISÓDIO 15", url: "https://youtube.com/watch?v=g7UjfyIyv4E" },
+      { nome: "EPISÓDIO 16", url: "https://youtube.com/watch?v=enVF7OUfW6k" },
+      { nome: "ALEATORIO MILLY", url: "https://youtube.com/watch?v=lMcx5xQnCZ4" },
+{ nome: "EPISÓDIO 17", url: "https://youtube.com/watch?v=PK-P70MUcgU&__cpo=aHR0cHM6Ly93d3cueW91dHViZS5jb20" },
+{ nome: "EPISÓDIO 17", url: "https://youtube.com/watch?v=PK-70MUcgU&__cpo=aHR0cHM6Ly93d3cueW91dHViZS5jb20" },
+{ nome: "EPISÓDIO 18", url: "https://youtube.com/watch?v=KLVYipfvdJM&__cpo=aHR0cHM6Ly93d3cueW91dHViZS5jb20" },
+{ nome: "EPISÓDIO 19", url: "https://youtube.com/watch?v=0uLJshBKPFE&__cpo=aHR0cHM6Ly93d3cueW91dHViZS5jb20" },
+],
+"MINICRAFT: CHÁCARA MENINO CAMPEIRO - SÉRIE 04":[
+{ nome: "EPISÓDIO 01", url: "https://youtube.com/watch?v=IBFaIrNitgo&__cpo=aHR0cHM6Ly93d3cueW91dHViZS5jb20" },
+{ nome: "EPISÓDIO 02", url: "https://youtube.com/watch?v=evvxbYeEA8o&__cpo=aHR0cHM6Ly93d3cueW91dHViZS5jb20" },
+{ nome: "EPISÓDIO 03", url: "https://youtube.com/watch?v=UUgLtaqKKAo&__cpo=aHR0cHM6Ly93d3cueW91dHViZS5jb20" },
+{ nome: "EPISÓDIO 04", url: "https://youtube.com/watch?v=N1ZvCdSFDO4&pp=0gcJCbIJAYcqIYzv&__cpo=aHR0cHM6Ly93d3cueW91dHViZS5jb20" },
+{ nome: "EPISÓDIO 05", url: "https://youtube.com/watch?v=aVZRRKoC5LQ&__cpo=aHR0cHM6Ly93d3cueW91dHViZS5jb20" },
+{ nome: "EPISÓDIO 06", url: "https://youtube.com/watch?v=ehD61LknM4I&__cpo=aHR0cHM6Ly93d3cueW91dHViZS5jb20" },
+{ nome: "EPISÓDIO 07", url: "https://youtube.com/watch?v=9s14RndsAfQ&__cpo=aHR0cHM6Ly93d3cueW91dHViZS5jb20" },
+{ nome: "EPISÓDIO 08", url: "https://youtube.com/watch?v=PdUnkrTEQgk&__cpo=aHR0cHM6Ly93d3cueW91dHViZS5jb20" },
+{ nome: "EPISÓDIO 09", url: "https://youtube.com/watch?v=OHmteq8hKcc&__cpo=aHR0cHM6Ly93d3cueW91dHViZS5jb20" },
+
+{ nome: "EPISÓDIO 10", url: "https://youtube.com/watch?v=855PZN4J_4A&__cpo=aHR0cHM6Ly93d3cueW91dHViZS5jb20" },
+
+{ nome: "EPISÓDIO 11", url: "https://youtube.com/watch?v=Pl1TStSN5R8&__cpo=aHR0cHM6Ly93d3cueW91dHViZS5jb20" },
+
+{ nome: "EPISÓDIO 12", url: "https://youtube.com/watch?v=QJfahDk_qiI&__cpo=aHR0cHM6Ly93d3cueW91dHViZS5jb20" },
+
+{ nome: "EPISÓDIO 13", url: "https://youtube.com/watch?v=hHNbT9huPqk&__cpo=aHR0cHM6Ly93d3cueW91dHViZS5jb20" },
+
+
+{ nome: "EPISÓDIO 14", url: "https://youtube.com/watch?v=Wc9olpbXUTs&__cpo=aHR0cHM6Ly93d3cueW91dHViZS5jb20" },
+
+
+
+{ nome: "EPISÓDIO 15", url: "https://youtube.com/watch?v=klU2c3Oh4eo&__cpo=aHR0cHM6Ly93d3cueW91dHViZS5jb20" },
+
+],
+
+
+ "MINICRAFT: CHÁCARA MENINO CAMPEIRO - SÉRIE 05": [
+
+{ nome: "EPISÓDIO 01", url: "https://youtube.com/watch?v=gS5VN5aSE_c&__cpo=aHR0cHM6Ly93d3cueW91dHViZS5jb20" },
+
+{ nome: "EPISÓDIO 02", url: "https://youtube.com/watch?v=1p1yrvfcEnE&pp=0gcJCb4JAYcqIYzv&__cpo=aHR0cHM6Ly93d3cueW91dHViZS5jb20" },
+
+{ nome: "EPISÓDIO 03", url: "https://youtube.com/watch?v=6_zCL1jBErk&__cpo=aHR0cHM6Ly93d3cueW91dHViZS5jb20" },
+
+{ nome: "EPISÓDIO 04", url: "https://youtube.com/watch?v=ypiwSBxc3GY&__cpo=aHR0cHM6Ly93d3cueW91dHViZS5jb20" },
+
+{ nome: "EPISÓDIO 05", url: "https://youtube.com/watch?v=WP48zYx2-MQ&__cpo=aHR0cHM6Ly93d3cueW91dHViZS5jb20" },
+
+{ nome: "EPISÓDIO 06", url: "https://youtube.com/watch?v=zgGgctZFWYI&__cpo=aHR0cHM6Ly93d3cueW91dHViZS5jb20" },
+
+
+{ nome: "EPISÓDIO 07", url: "https://YOUTUBE.COM/watch?v=Dz2o7HvoRE4&__cpo=aHR0cHM6Ly93d3cueW91dHViZS5jb20" },
+
+
+
+],
+"MINICRAFT: CHÁCARA MENINO CAMPEIRO - SÉRIE 06":[
+{ nome: "EPISÓDIO 01", url: "https://YOUTUBE.COM/watch?v=HwM39R49GQs&__cpo=aHR0cHM6Ly93d3cueW91dHViZS5jb20" },
+
+
+{ nome: "EPISÓDIO 02", url: "https://YOUTUBE.COM/watch?v=a5pgob9FYDU&__cpo=aHR0cHM6Ly93d3cueW91dHViZS5jb20" },
+
+
+{ nome: "EPISÓDIO 03", url: "https://YOUTUBE.COM/watch?v=m8FNPb8GDck&__cpo=aHR0cHM6Ly93d3cueW91dHViZS5jb20" },
+
+
+{ nome: "EPISÓDIO 04", url: "https://YOUTUBE.COM/watch?v=Zau8xohqHBs&__cpo=aHR0cHM6Ly93d3cueW91dHViZS5jb20" },
+
+
+
+
+{ nome: "EPISÓDIO 05", url: "https://YOUTUBE.COM/watch?v=DBotYgMwgec&__cpo=aHR0cHM6Ly93d3cueW91dHViZS5jb20" },
+
+
+],
+
+
+ "MINICRAFT: CHÁCARA MENINO CAMPEIRO - SÉRIE 07 COM LIVES": [
+
+{ nome: "LIVE 01", url: "https://YOUTUBE.COM/watch?v=uw0xedDe4OQ&__cpo=aHR0cHM6Ly93d3cueW91dHViZS5jb20" },
+
+{ nome: "LIVE 02", url: "https://YOUTUBE.COM/watch?v=MaCo_Ka5xDA&__cpo=aHR0cHM6Ly93d3cueW91dHViZS5jb20" },
+
+{ nome: "LIVE 03", url: "https://YOUTUBE.COM/watch?v=W6nqp9o-Xbk&pp=0gcJCdAJAYcqIYzv&__cpo=aHR0cHM6Ly93d3cueW91dHViZS5jb20" },
+
+{ nome: "LIVE 04", url: "https://YOUTUBE.COM/watch?v=yOAMvaiIq0o&__cpo=aHR0cHM6Ly93d3cueW91dHViZS5jb20" },
+
+{ nome: "EPISÓDIO 05", url: "https://YOUTUBE.COM/watch?v=mentuNH7058&pp=0gcJCdAJAYcqIYzv&__cpo=aHR0cHM6Ly93d3cueW91dHViZS5jb20" },
+
+{ nome: "LIVE 06", url: "https://YOUTUBE.COM/watch?v=bQX_fZCO9jM&__cpo=aHR0cHM6Ly93d3cueW91dHViZS5jb20" },
+
+
+
+
+
+
+
+
+
+
+
+
+    ]
+
+  };
+
+  function extrairIdYoutube(url) {
+    const match = url.match(/(?:v=|\/)([0-9A-Za-z_-]{11})/);
+    return match ? match[1] : null;
+  }
+
+  function mostrarVideos() {
+    videosContainer.innerHTML = '';
+    const series = Object.keys(videosData);
+
+    series.forEach(serie => {
+      const section = document.createElement('section');
+      section.className = 'series-section';
+
+      const h2 = document.createElement('h2');
+      h2.textContent = serie;
+      section.appendChild(h2);
+
+      const grid = document.createElement('div');
+      grid.className = 'videos-grid';
+
+      videosData[serie].forEach(video => {
+        const id = extrairIdYoutube(video.url);
+        if (!id) return;
+
+        const card = document.createElement('div');
+        card.className = 'video-card';
+
+        const img = document.createElement('img');
+        img.src = `https://img.youtube.com/vi/${id}/0.jpg`;
+        img.alt = video.nome;
+        img.addEventListener('click', () => {
+          videoIframe.src = `https://www.youtube.com/embed/${id}?autoplay=1`;
+          videoModal.style.display = 'flex';
+        });
+
+        const title = document.createElement('p');
+        title.textContent = video.nome;
+
+        card.appendChild(img);
+        card.appendChild(title);
+        grid.appendChild(card);
+      });
+
+      section.appendChild(grid);
+      videosContainer.appendChild(section);
+    });
+  }
+
+  closeModal.onclick = () => {
+    videoModal.style.display = 'none';
+    videoIframe.src = '';
+  };
+
+  window.onclick = (event) => {
+    if (event.target === videoModal) {
+      videoModal.style.display = 'none';
+      videoIframe.src = '';
+    }
+  };
+
+  mostrarVideos();
+</script>
+</body>
+</html>

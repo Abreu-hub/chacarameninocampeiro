@@ -1,0 +1,296 @@
+ {
+                pergunta: "Qual é o nome do principal inimigo em Minecraft?",
+                opcoes: ["Creeper", "Ender Dragon", "Zombie", "Esqueleto"],
+                respostaCorreta: 1
+            },
+            {
+                pergunta: "O que você usa para encantar itens no Minecraft?",
+                opcoes: ["Mesa de encantamentos", "Caldeirão", "Forno", "Brew Stand"],
+                respostaCorreta: 0
+            },
+            {
+                pergunta: "Qual é o bloco necessário para fazer uma poção?",
+                opcoes: ["Caldeirão", "Bloco de Redstone", "Lâmpada de End", "Obsidiana"],
+                respostaCorreta: 0
+            },
+            {
+                pergunta: "O que o Creeper faz quando se aproxima de um jogador?",
+                opcoes: ["Explode", "Lança uma bola de fogo", "Desaparece", "Destrói blocos"],
+                respostaCorreta: 0
+            },
+            {
+                pergunta: "Como você cria um portal para o Nether?",
+                opcoes: ["Usando madeira e pedra", "Usando obsidiana", "Com vidro e lava", "Com blocos de Netherite"],
+                respostaCorreta: 1
+            },
+            {
+                pergunta: "O que é o Ender Pearl?",
+                opcoes: ["Usado para teletransportar", "Usado para curar", "Usado para encantar", "Usado para atacar"],
+                respostaCorreta: 0
+            },
+            {
+                pergunta: "Qual é o item necessário para cultivar trigo?",
+                opcoes: ["Pá", "Ferro", "Semente de trigo", "Picareta"],
+                respostaCorreta: 2
+            },
+            {
+                pergunta: "Qual é o nome da criatura que você deve derrotar para alcançar o fim do jogo?",
+                opcoes: ["Wither", "Creeper", "Ender Dragon", "Herobrine"],
+                respostaCorreta: 2
+            },
+            {
+                pergunta: "Qual bloco é usado para fazer uma mesa de encantamento?",
+                opcoes: ["Pedra", "Madeira", "Lápis-lazúli", "Obsidiana"],
+                respostaCorreta: 2
+            },
+{
+                pergunta: "Em que biome você encontra a estrutura da Fortaleza no Minecraft?",
+                opcoes: ["Deserto", "Planície", "Selva", "End"],
+                respostaCorreta: 3
+            },
+            {
+                pergunta: "Qual é o nome do encantamento que permite que você caminhe sobre a água?",
+                opcoes: ["Caminho Rápido", "Respiração Aquática", "Passo Gelado", "Caminhada Sob Águas"],
+                respostaCorreta: 2
+            },
+            {
+                pergunta: "Qual é o bloco usado para fazer a cama?",
+                opcoes: ["Bloco de Couro", "Lã", "Bloco de Madeira", "Pedra"],
+                respostaCorreta: 1
+            },
+            {
+                pergunta: "Qual mob aparece no Minecraft apenas à noite e que pode ser montado?",
+                opcoes: ["Lobo", "Cavalo", "Creeper", "Esqueleto"],
+                respostaCorreta: 1
+            },
+            {
+                pergunta: "Qual é a receita para criar uma Fornalha?",
+                opcoes: ["3 pedras e 4 madeiras", "8 pedras", "5 pedras e 2 madeiras", "8 madeiras"],
+                respostaCorreta: 1
+            },
+            {
+                pergunta: "Qual bloco é necessário para fazer uma poção de Invisibilidade?",
+                opcoes: ["Bloco de Obsidiana", "Gema de Blaze", "Fermento de Poção", "Pó de Ender"],
+                respostaCorreta: 2
+            },
+            {
+                pergunta: "Em qual dimensão você pode encontrar o Dragão do Fim?",
+                opcoes: ["Nether", "Fim", "Overworld", "Caverna"],
+                respostaCorreta: 1
+            },
+            {
+                pergunta: "Qual item você usa para iluminar a caverna sem precisar de tocha?",
+                opcoes: ["Lanterna de Lava", "Luz do Sol", "Tocha de Blaze", "Lanterna de Glowstone"],
+                respostaCorreta: 3
+            },
+            {
+                pergunta: "O que você precisa para criar um portal para o Nether?",
+                opcoes: ["Madeira e Lava", "Obsidiana e Lava", "Obsidiana e Pedras", "Madeira e Areia"],
+                respostaCorreta: 1
+            },
+            {
+                pergunta: "Qual é a principal função da Poção de Cura Instantânea?",
+                opcoes: ["Aumentar o dano", "Curar instantaneamente", "Proteger contra mobs", "Aumentar a velocidade de movimento"],
+                respostaCorreta: 1
+            }
+{
+                pergunta: "Qual é o item necessário para criar uma poção de força no Minecraft?",
+                opcoes: ["Blaze Powder", "Fermento de Poção", "Gema de Blaze", "Nether Wart"],
+                respostaCorreta: 0
+            },
+            {
+                pergunta: "Qual é o nome do mob que pode ser encontrado na Dimensão do End e que atira bolas de fogo?",
+                opcoes: ["Enderman", "Shulker", "Blaze", "Ender Dragon"],
+                respostaCorreta: 1
+            },
+            {
+                pergunta: "Qual é o bloco que é usado para fazer a pólvora no Minecraft?",
+                opcoes: ["Areia", "Gunpowder", "TNT", "Bloco de Blaze"],
+                respostaCorreta: 1
+            },
+            {
+                pergunta: "Qual é o nome do encantamento que aumenta a velocidade de mineração no Minecraft?",
+                opcoes: ["Toque Suave", "Fortuna", "Eficiência", "Unbreaking"],
+                respostaCorreta: 2
+            },
+            {
+                pergunta: "Como se chama a criatura do Minecraft que pode ser usada para fazer a Poção de Regeneração?",
+                opcoes: ["Spider", "Slime", "Zumbi", "Cave Spider"],
+                respostaCorreta: 0
+            },
+            {
+                pergunta: "Qual é o nome da maior árvore encontrada no Minecraft?",
+                opcoes: ["Árvore de Carvalho", "Árvore de Abeto", "Árvore de Acácia", "Árvore Gigante de Cogumelo"],
+                respostaCorreta: 3
+            },
+            {
+                pergunta: "Qual é o nome da espada que pode ser feita com o minério mais raro do jogo?",
+                opcoes: ["Espada de Ferro", "Espada de Diamante", "Espada de Netherite", "Espada de Ouro"],
+                respostaCorreta: 2
+            },
+            {
+                pergunta: "O que você precisa para criar uma Poção de Regeneração?",
+                opcoes: ["Gema de Blaze", "Coração de Magma", "Fermento de Poção", "Spider Eye"],
+                respostaCorreta: 3
+            },
+            {
+                pergunta: "Em qual biome você pode encontrar a estrutura do Portal do Nether?",
+                opcoes: ["Deserto", "Planície", "Selva", "Mesa de Pedra"],
+                respostaCorreta: 3
+            },
+            {
+                pergunta: "Qual é o bloco que é usado para fazer a Fornalha?",
+                opcoes: ["Pedra", "Madeira", "Lã", "Areia"],
+                respostaCorreta: 0
+            }
+  {
+                pergunta: "Qual picareta é necessária para minerar diamante no Minecraft?",
+                opcoes: ["Picareta de pedra", "Picareta de ferro", "Picareta de madeira", "Picareta de ouro"],
+                respostaCorreta: 1
+            },
+            {
+                pergunta: "Qual mob explode ao se aproximar do jogador?",
+                opcoes: ["Zombie", "Creeper", "Enderman", "Esqueleto"],
+                respostaCorreta: 1
+            },
+            {
+                pergunta: "Qual é o nome da dimensão onde se encontra o Ender Dragon?",
+                opcoes: ["Nether", "End", "Overworld", "Sky"],
+                respostaCorreta: 1
+            },
+            {
+                pergunta: "Qual é o nome do bloco que é necessário para criar uma mesa de encantamentos?",
+                opcoes: ["Obsidiana", "Madeira", "Lápis-lazúli", "Diamante"],
+                respostaCorreta: 2
+            },
+            {
+                pergunta: "Qual é o item necessário para encantar itens no Minecraft?",
+                opcoes: ["Lâmpada de End", "Mesa de encantamento", "Pó de Blaze", "Caldeirão"],
+                respostaCorreta: 1
+            },
+            {
+                pergunta: "O que é usado para criar uma Poção de Cura no Minecraft?",
+                opcoes: ["Spider Eye", "Fermento de Poção", "Coração de Magma", "Gema de Blaze"],
+                respostaCorreta: 0
+            },
+            {
+                pergunta: "Qual é o nome do bloco que você usa para criar o portal para o Nether?",
+                opcoes: ["Pedra do Nether", "Obsidiana", "Pedra do End", "Bloco de Lava"],
+                respostaCorreta: 1
+            },
+            {
+                pergunta: "Qual mob não pode ser montado no Minecraft?",
+                opcoes: ["Cavalo", "Lobo", "Lama", "Creeper"],
+                respostaCorreta: 3
+            },
+            {
+                pergunta: "Qual é o item necessário para cultivar cenouras no Minecraft?",
+                opcoes: ["Semente de cenoura", "Trigo", "Cenoura", "Pó de Osso"],
+                respostaCorreta: 0
+            },
+            {
+                pergunta: "Qual é o nome do encantamento que aumenta a chance de dropar itens dos mobs?",
+                opcoes: ["Fortuna", "Looting", "Eficiência", "Unbreaking"],
+                respostaCorreta: 1
+            }
+        ];
+ {
+                pergunta: "Qual é o item necessário para criar uma poção de força no Minecraft?",
+                opcoes: ["Blaze Powder", "Fermento de Poção", "Gema de Blaze", "Nether Wart"],
+                respostaCorreta: 0
+            },
+            {
+                pergunta: "Qual é o nome do mob que pode ser encontrado na Dimensão do End e que atira bolas de fogo?",
+                opcoes: ["Enderman", "Shulker", "Blaze", "Ender Dragon"],
+                respostaCorreta: 1
+            },
+            {
+                pergunta: "Qual é o bloco que é usado para fazer a pólvora no Minecraft?",
+                opcoes: ["Areia", "Gunpowder", "TNT", "Bloco de Blaze"],
+                respostaCorreta: 1
+            },
+            {
+                pergunta: "Qual é o nome do encantamento que aumenta a velocidade de mineração no Minecraft?",
+                opcoes: ["Toque Suave", "Fortuna", "Eficiência", "Unbreaking"],
+                respostaCorreta: 2
+            },
+            {
+                pergunta: "Como se chama a criatura do Minecraft que pode ser usada para fazer a Poção de Regeneração?",
+                opcoes: ["Spider", "Slime", "Zumbi", "Cave Spider"],
+                respostaCorreta: 0
+            },
+            {
+                pergunta: "Qual é o nome da maior árvore encontrada no Minecraft?",
+                opcoes: ["Árvore de Carvalho", "Árvore de Abeto", "Árvore de Acácia", "Árvore Gigante de Cogumelo"],
+                respostaCorreta: 3
+            },
+            {
+                pergunta: "Qual é o nome da espada que pode ser feita com o minério mais raro do jogo?",
+                opcoes: ["Espada de Ferro", "Espada de Diamante", "Espada de Netherite", "Espada de Ouro"],
+                respostaCorreta: 2
+            },
+            {
+                pergunta: "O que você precisa para criar uma Poção de Regeneração?",
+                opcoes: ["Gema de Blaze", "Coração de Magma", "Fermento de Poção", "Spider Eye"],
+                respostaCorreta: 3
+            },
+            {
+                pergunta: "Em qual biome você pode encontrar a estrutura do Portal do Nether?",
+                opcoes: ["Deserto", "Planície", "Selva", "Mesa de Pedra"],
+                respostaCorreta: 3
+            },
+            {
+                pergunta: "Qual é o bloco que é usado para fazer a Fornalha?",
+                opcoes: ["Pedra", "Madeira", "Lã", "Areia"],
+                respostaCorreta: 0
+            }
+{
+        pergunta: "Qual é o nome da estrutura encontrada no Nether que contém Blazes?",
+        opcoes: ["Fortaleza", "Bastião", "Portal", "Castelo do End"],
+        respostaCorreta: 0
+    },
+    {
+        pergunta: "Qual é o bloco necessário para fazer uma poção de cura no Minecraft?",
+        opcoes: ["Spider Eye", "Gema de Blaze", "Fermento de Poção", "Ovo de Ender"],
+        respostaCorreta: 0
+    },
+    {
+        pergunta: "Qual é o item necessário para fazer uma Poção de Levitação?",
+        opcoes: ["Pó de Blaze", "Feather", "Shulker Shell", "Magia de End"],
+        respostaCorreta: 2
+    },
+    {
+        pergunta: "O que acontece quando você joga um Ender Pearl no ar?",
+        opcoes: ["Você teletransporta", "Você ganha um buff", "Você se transforma em Enderman", "Nada acontece"],
+        respostaCorreta: 0
+    },
+    {
+        pergunta: "Qual mob é encontrado apenas em ilhas flutuantes no Minecraft?",
+        opcoes: ["Blaze", "Shulker", "Ghast", "Slime"],
+        respostaCorreta: 1
+    },
+    {
+        pergunta: "Qual é o nome do encantamento que faz com que a sua espada queime os inimigos?",
+        opcoes: ["Aflição", "Afiada", "Fogo de Drago", "Fogo no Toque"],
+        respostaCorreta: 3
+    },
+    {
+        pergunta: "Qual é o nome do encantamento que reduz o dano recebido de queda?",
+        opcoes: ["Queda Leve", "Queda Suave", "Deslizamento", "Pé Leve"],
+        respostaCorreta: 1
+    },
+    {
+        pergunta: "O que você deve usar para criar um Portal do Fim?",
+        opcoes: ["Obsidiana", "Pedra do End", "Blocos de Pedra", "Bloco de Obsidiana e Olhos de Ender"],
+        respostaCorreta: 3
+    },
+    {
+        pergunta: "Qual é o nome do mob que você deve derrotar para obter o coração do End?",
+        opcoes: ["Ender Dragon", "Wither", "Creeper", "Shulker"],
+        respostaCorreta: 0
+    },
+    {
+        pergunta: "Qual bloco é necessário para fazer uma Poção de Regeneração?",
+        opcoes: ["Coração de Magma", "Olho de Aranha", "Fermento de Poção", "Pó de Blaze"],
+        respostaCorreta: 1
+    },

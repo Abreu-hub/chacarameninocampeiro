@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-DEKRSE4D4M"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-DEKRSE4D4M');
+</script>
+
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jogo de Asteroides</title>
+  <style>
+    body {
+      background: url('asteroide.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: white;
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 0;
+      padding: 20px;
+    }
+
+    h1 {
+      color: #00ffcc;
+      text-shadow: 0 0 10px #00ffcc;
+      font-family: 'Arial Black', sans-serif;
+    }
+
+    #nickname, #fixedName {
+      margin: 15px;
+    }
+
+    #fixedName {
+      font-weight: bold;
+    }
+
+    canvas {
+      background-color: #111;
+      border: 2px solid #00ffcc;
+    }
+
+    button {
+      margin: 10px;
+      padding: 10px 20px;
+      background: #00ffcc;
+      color: black;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    button:disabled {
+      background: gray;
+      cursor: not-allowed;
+    }
+
+    #rankingList {
+      background: rgba(0, 0, 0, 0.8);
+      padding: 15px;
+      border-radius: 10px;
+      margin-top: 20px;
+      width: 300px;
+    }
+
+    #accessCounter {
+      position: fixed;
+      bottom: 5px;
+      right: 10px;
+      font-size: 12px;
+      color: #666;
+    }
+
+    #cursor {
+      font-size: 30px;
+      animation: blink 1s infinite;
+      margin-top: 10px;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    #mobileControls {
+      margin-top: 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .arrow-row {
+      display: flex;
+      gap: 20px;
+    }
+
+    .control-btn {
+      font-size: 24px;
+      padding: 10px;
+      background: #333;
+      color: white;
+      border: 1px solid #00ffcc;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🚀 JOGO DOS ASTEROIDES</h1>
+
+  <div id="nickname">
+    Digite seu apelido:
+    <input type="text" id="playerName" placeholder="Seu nome" />
+  </div>
+  <div id="fixedName" style="display:none;"></div>
+
+  <canvas id="gameCanvas" width="400" height="400"></canvas>
+  <div>Pontos: <span id="score">0</span></div>
+
+  <button id="startBtn">Iniciar Jogo</button>
+  <button id="rankingBtn">Mostrar/Ocultar Ranking</button>
+
+  <div id="rankingList" style="display:none;"></div>
+  <div id="accessCounter"></div>
+  <div id="cursor">▼</div>
+
+  <div id="mobileControls">
+    <div class="arrow-row">
+      <button class="control-btn" onclick="moveShip('left')">⬅️</button>
+      <button class="control-btn" onclick="moveShip('up')">⬆️</button>
+      <button class="control-btn" onclick="moveShip('right')">➡️</button>
+    </div>
+  </div>
+
+  <script>
+    const canvas = document.getElementById("gameCanvas");
+    const ctx = canvas.getContext("2d");
+    const startBtn = document.getElementById("startBtn");
+    const scoreEl = document.getElementById("score");
+    const playerNameInput = document.getElementById("playerName");
+    const nicknameDiv = document.getElementById("nickname");
+    const fixedNameDiv = document.getElementById("fixedName");
+    const rankingBtn = document.getElementById("rankingBtn");
+    const rankingList = document.getElementById("rankingList");
+    const accessCounter = document.getElementById("accessCounter");
+
+    let playerName = "";
+    let score = 0;
+    let gameInterval;
+    let ship = { x: 200, y: 350 };
+    let bullets = [];
+    let asteroids = [];
+
+    function updateAccessCount() {
+      let count = parseInt(localStorage.getItem("asteroidAccess") || "0") + 1;
+      localStorage.setItem("asteroidAccess", count);
+      accessCounter.textContent = `${count}`;
+    }
+
+    function drawShip() {
+      ctx.fillStyle = "white";
+      ctx.beginPath();
+      ctx.moveTo(ship.x, ship.y);
+      ctx.lineTo(ship.x - 10, ship.y + 20);
+      ctx.lineTo(ship.x + 10, ship.y + 20);
+      ctx.closePath();
+      ctx.fill();
+    }
+
+    function drawBullet(b) {
+      ctx.fillStyle = "yellow";
+      ctx.fillRect(b.x - 2, b.y, 4, 10);
+    }
+
+    function drawAsteroid(a) {
+      ctx.fillStyle = "gray";
+      ctx.beginPath();
+      ctx.arc(a.x, a.y, a.r, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    function spawnAsteroid() {
+      const radius = Math.random() * 10 + 10;
+      asteroids.push({
+        x: Math.random() * (canvas.width - 2 * radius) + radius,
+        y: -radius,
+        r: radius,
+        speed: Math.random() * 2 + 1
+      });
+    }
+
+    function updateGame() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      drawShip();
+
+      bullets = bullets.filter(b => b.y > 0);
+      bullets.forEach(b => {
+        b.y -= 5;
+        drawBullet(b);
+      });
+
+      asteroids = asteroids.filter(a => a.y - a.r < canvas.height);
+      asteroids.forEach(a => {
+        a.y += a.speed;
+        drawAsteroid(a);
+      });
+
+      // Verificar colisões
+      bullets.forEach((b, bi) => {
+        asteroids.forEach((a, ai) => {
+          const dx = b.x - a.x;
+          const dy = b.y - a.y;
+          if (Math.sqrt(dx * dx + dy * dy) < a.r) {
+            bullets.splice(bi, 1);
+            asteroids.splice(ai, 1);
+            score++;
+            scoreEl.textContent = score;
+          }
+        });
+      });
+
+      // Verificar colisão com nave
+      for (let a of asteroids) {
+        const dx = ship.x - a.x;
+        const dy = ship.y - a.y;
+        if (Math.sqrt(dx * dx + dy * dy) < a.r + 10) {
+          endGame();
+          return;
+        }
+      }
+
+      if (Math.random() < 0.03) spawnAsteroid();
+    }
+
+    function endGame() {
+      clearInterval(gameInterval);
+      alert(`Fim de jogo! ${playerName} fez ${score} pontos.`);
+      saveToRanking(playerName, score);
+      startBtn.disabled = false;
+    }
+
+    function startGame() {
+      playerName = playerNameInput.value.trim();
+      if (!playerName) {
+        alert("Digite seu apelido!");
+        return;
+      }
+
+      fixedNameDiv.textContent = `Jogador: ${playerName}`;
+      fixedNameDiv.style.display = "block";
+      nicknameDiv.style.display = "none";
+      score = 0;
+      scoreEl.textContent = score;
+      bullets = [];
+      asteroids = [];
+      ship.x = 200;
+      ship.y = 350;
+      startBtn.disabled = true;
+      gameInterval = setInterval(updateGame, 30);
+    }
+
+    function saveToRanking(name, score) {
+      let list = JSON.parse(localStorage.getItem("asteroidRanking") || "[]");
+      list.push({ name, score });
+      list.sort((a, b) => b.score - a.score);
+      localStorage.setItem("asteroidRanking", JSON.stringify(list.slice(0, 10)));
+    }
+
+    function toggleRanking() {
+      let list = JSON.parse(localStorage.getItem("asteroidRanking") || "[]");
+      rankingList.innerHTML = "<strong>🏆 Ranking:</strong><ol>" +
+        list.map(e => `<li>${e.name} - ${e.score} pts</li>`).join("") + "</ol>";
+      rankingList.style.display = rankingList.style.display === "none" ? "block" : "none";
+    }
+
+    document.addEventListener("keydown", e => {
+      if (e.key === "ArrowLeft" && ship.x > 15) ship.x -= 15;
+      if (e.key === "ArrowRight" && ship.x < canvas.width - 15) ship.x += 15;
+      if (e.key === " " && gameInterval) bullets.push({ x: ship.x, y: ship.y });
+      if (e.key === "Escape" && gameInterval) {
+        clearInterval(gameInterval);
+        alert("Jogo finalizado.");
+        startBtn.disabled = false;
+      }
+    });
+
+    startBtn.addEventListener("click", startGame);
+    rankingBtn.addEventListener("click", toggleRanking);
+
+    updateAccessCount();
+
+    function moveShip(direction) {
+      if (!gameInterval) return;
+      if (direction === "left" && ship.x > 15) ship.x -= 15;
+      if (direction === "right" && ship.x < canvas.width - 15) ship.x += 15;
+      if (direction === "up") bullets.push({ x: ship.x, y: ship.y });
+    }
+  </script>
+</body>
+</html>

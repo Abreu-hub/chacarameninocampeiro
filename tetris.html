@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-DEKRSE4D4M"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-DEKRSE4D4M');
+</script>
+
+
+
+  <meta charset="UTF-8">
+  <title>Dominó Tetris</title>
+  <style>
+    body {
+      background: url('tetris.jpg') no-repeat center center fixed;
+      background-size: 50%;
+      background-color: #000; /* Cor de fundo de apoio */
+      color: #fff;
+      font-family: sans-serif;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+    }
+    #game {
+      margin: auto;
+      margin-top: 20px;
+      width: 300px;
+      height: 600px;
+      background: rgba(0, 0, 0, 0.8);
+      display: grid;
+      grid-template-columns: repeat(10, 30px);
+      grid-template-rows: repeat(20, 30px);
+      border: 2px solid white;
+    }
+    .block {
+      width: 30px;
+      height: 30px;
+      box-sizing: border-box;
+      border: 1px solid #444;
+    }
+    .filled {
+      background: #fff;
+      border: 1px solid #000;
+    }
+    .controls {
+      margin-top: 20px;
+    }
+    .controls button {
+      font-size: 24px;
+      margin: 5px;
+      padding: 10px 20px;
+      border-radius: 6px;
+      background: #333;
+      color: white;
+      border: none;
+    }
+    #score {
+      font-size: 20px;
+      margin-top: 10px;
+    }
+    #startButton {
+      font-size: 24px;
+      padding: 20px;
+      background: #28a745;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    #controls {
+      display: none;
+      margin-top: 20px;
+    }
+    .controls-arrow {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
+    }
+    .controls-arrow button {
+      font-size: 24px;
+      padding: 15px 25px;
+      border-radius: 6px;
+      background: #333;
+      color: white;
+      border: none;
+    }
+    .controls-arrow button:active,
+    .rotate-button button:active {
+      background: #555;
+    }
+    .rotate-button {
+      margin-top: 10px;
+    }
+    .rotate-button button {
+      font-size: 24px;
+      padding: 15px 25px;
+      border-radius: 6px;
+      background: #333;
+      color: white;
+      border: none;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Dominó Tetris</h1>
+  <div id="score">Pontos: 0</div>
+  
+  <div id="game"></div>
+
+  <button id="startButton" onclick="startGame()">Iniciar</button>
+
+  <div id="controls">
+    <div class="controls-arrow">
+      <button onclick="moveLeft()">⬅️</button>
+      <button onmousedown="speedUp()" onmouseup="stopSpeed()" ontouchstart="speedUp()" ontouchend="stopSpeed()">🔽</button>
+      <button onclick="moveRight()">➡️</button>
+    </div>
+    <div class="rotate-button">
+      <button onclick="rotate()">🔄</button>
+    </div>
+  </div>
+
+  <script>
+    const ROWS = 20;
+    const COLS = 10;
+    const game = document.getElementById('game');
+    const scoreEl = document.getElementById('score');
+    const startButton = document.getElementById('startButton');
+    const controls = document.getElementById('controls');
+    const grid = [];
+    let current = null;
+    let interval;
+    let score = 0;
+    let isSpeedingUp = false;
+    let placedBlocks = [];
+
+    const shapes = [
+      [[1, 1, 1], [0, 1, 0]], // T
+      [[1, 1], [1, 1]],       // O
+      [[1, 1, 0], [0, 1, 1]], // S
+      [[0, 1, 1], [1, 1, 0]], // Z
+      [[1, 0, 0], [1, 1, 1]], // L
+      [[0, 0, 1], [1, 1, 1]], // J
+      [[1, 1, 1, 1]]          // I
+    ];
+
+    function createGrid() {
+      for (let r = 0; r < ROWS; r++) {
+        grid[r] = [];
+        for (let c = 0; c < COLS; c++) {
+          const div = document.createElement('div');
+          div.classList.add('block');
+          game.appendChild(div);
+          grid[r][c] = div;
+        }
+      }
+    }
+
+    function randomShape() {
+      const shape = shapes[Math.floor(Math.random() * shapes.length)];
+      return {
+        shape,
+        row: 0,
+        col: Math.floor(COLS / 2) - Math.floor(shape[0].length / 2)
+      };
+    }
+
+    function draw() {
+      clearGrid();
+      drawBlocks();
+    }
+
+    function clearGrid() {
+      for (let r = 0; r < ROWS; r++) {
+        for (let c = 0; c < COLS; c++) {
+          grid[r][c].classList.remove('filled');
+        }
+      }
+
+      for (let block of placedBlocks) {
+        grid[block.row][block.col].classList.add('filled');
+      }
+    }
+
+    function drawBlocks() {
+      const coords = getCurrentCoords();
+      for (let [r, c] of coords) {
+        if (r >= 0 && r < ROWS && c >= 0 && c < COLS) {
+          grid[r][c].classList.add('filled');
+        }
+      }
+    }
+
+    function getCurrentCoords(piece = current) {
+      const coords = [];
+      for (let r = 0; r < piece.shape.length; r++) {
+        for (let c = 0; c < piece.shape[r].length; c++) {
+          if (piece.shape[r][c] === 1) {
+            coords.push([piece.row + r, piece.col + c]);
+          }
+        }
+      }
+      return coords;
+    }
+
+    function canMove(deltaRow, deltaCol, rotate = false) {
+      const test = { ...current };
+      test.shape = rotate ? rotateShape(current.shape) : current.shape;
+      test.row += deltaRow;
+      test.col += deltaCol;
+
+      const coords = getCurrentCoords(test);
+      return coords.every(([r, c]) =>
+        r >= 0 && r < ROWS &&
+        c >= 0 && c < COLS &&
+        !placedBlocks.some(b => b.row === r && b.col === c)
+      );
+    }
+
+    function moveDown() {
+      if (canMove(1, 0)) {
+        current.row++;
+      } else {
+        placePiece();
+        checkLines();
+        current = randomShape();
+        if (!canMove(0, 0)) {
+          alert("Fim de jogo!");
+          clearInterval(interval);
+        }
+      }
+      draw();
+    }
+
+    function moveLeft() {
+      if (canMove(0, -1)) {
+        current.col--;
+        draw();
+      }
+    }
+
+    function moveRight() {
+      if (canMove(0, 1)) {
+        current.col++;
+        draw();
+      }
+    }
+
+    function speedUp() {
+      isSpeedingUp = true;
+    }
+
+    function stopSpeed() {
+      isSpeedingUp = false;
+    }
+
+    function rotate() {
+      if (canMove(0, 0, true)) {
+        current.shape = rotateShape(current.shape);
+        draw();
+      }
+    }
+
+    function rotateShape(shape) {
+      return shape[0].map((_, i) => shape.map(row => row[i])).reverse();
+    }
+
+    function placePiece() {
+      const coords = getCurrentCoords();
+      for (let [r, c] of coords) {
+        placedBlocks.push({ row: r, col: c });
+      }
+    }
+
+    function checkLines() {
+      for (let r = ROWS - 1; r >= 0; r--) {
+        let full = true;
+        for (let c = 0; c < COLS; c++) {
+          if (!placedBlocks.some(b => b.row === r && b.col === c)) {
+            full = false;
+            break;
+          }
+        }
+        if (full) {
+          score += 5;
+          placedBlocks = placedBlocks.filter(b => b.row !== r);
+          for (let b of placedBlocks) {
+            if (b.row < r) b.row++;
+          }
+          r++;
+        }
+      }
+      scoreEl.textContent = "Pontos: " + score;
+    }
+
+    function startGame() {
+      startButton.style.display = "none";
+      controls.style.display = "block";
+      placedBlocks = [];
+      current = randomShape();
+      score = 0;
+      scoreEl.textContent = "Pontos: 0";
+      draw();
+      clearInterval(interval);
+      interval = setInterval(() => {
+        if (!isSpeedingUp) {
+          moveDown();
+        }
+      }, 500);
+    }
+
+    document.addEventListener("keydown", e => {
+      if (e.repeat) return;
+      if (e.key === "ArrowLeft") moveLeft();
+      if (e.key === "ArrowRight") moveRight();
+      if (e.key === "ArrowUp") rotate();
+      if (e.key === "ArrowDown") speedUp();
+    });
+
+    document.addEventListener("keyup", e => {
+      if (e.key === "ArrowDown") stopSpeed();
+    });
+
+    setInterval(() => {
+      if (isSpeedingUp) {
+        moveDown();
+      }
+    }, 50);
+
+    createGrid();
+  </script>
+
+</body>
+</html>

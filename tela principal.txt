@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Bem-vindo</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@800&display=swap');
+
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            background: url('minicraft.jfif') no-repeat center center;
+            background-size: cover;
+            font-family: 'Roboto Slab', serif;
+        }
+
+        .titulo {
+            font-size: 30px;
+            color: black;
+            text-shadow: 1px 1px 3px white;
+            padding: 120px 20px 20px 20px;
+            text-align: center;
+        }
+
+        /* Container para alinhar o bloco abaixo do título */
+        .conteudo {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start; /* alinha à esquerda */
+            margin-left: 40px; /* distância da borda esquerda */
+        }
+
+        .box-esquerda {
+            background-color: black;
+            border-radius: 8px;
+            padding: 10px;
+            text-align: center;
+            width: 120px;
+            margin-top: 20px;
+        }
+
+        .box-esquerda p {
+            margin: 0 0 8px 0;
+            font-size: 14px;
+            color: white;
+        }
+
+        .box-esquerda a img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 4px;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .box-esquerda a {
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Título centralizado -->
+    <div class="titulo">BEM VINDO AO QUIZ</div>
+
+    <!-- Conteúdo alinhado à esquerda abaixo do título -->
+    <div class="conteudo">
+        <div class="box-esquerda">
+            <p>quiz 29/04/25</p>
+            <a href="#">
+                <img src="imagem.jfif" alt="Imagem do quiz">
+            </a>
+        </div>
+    </div>
+
+</body>
+</html>

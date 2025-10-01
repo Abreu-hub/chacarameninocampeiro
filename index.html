@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1074669766193195"
+     crossorigin="anonymous"></script>
+
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1074669766193195"
+     crossorigin="anonymous"></script>
+
+<meta name="google-adsense-account" content="ca-pub-1074669766193195">
+
+
+
+
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-DEKRSE4D4M"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-DEKRSE4D4M');
+</script>
+
+
+
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Quiz + YouTube (Vídeos, Lives, Shorts)</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@800&display=swap');
+
+    :root{
+      --bg-img: url('minicraft.jfif');
+      --card-bg: rgba(0,0,0,0.8);
+      --accent: #28a745;
+      --accent-hover: #218838;
+      --yellow: #ffd400;
+    }
+
+    html,body{height:100%;margin:0;font-family:'Roboto Slab',serif;background:var(--bg-img) no-repeat center center fixed;background-size:cover;color:#fff}
+    .container{max-width:1200px;margin:0 auto;padding:20px}
+    .titulo{font-size:30px;color:black;text-shadow:1px 1px 3px white;padding:140px 20px 20px 20px;text-align:center;position:relative}
+    .botao-jogos{position:absolute;right:-50px;top:240px;background:var(--accent);color:#fff;padding:11px 21px;border-radius:8px;text-decoration:none;font-size:17px;box-shadow:0 4px 8px rgba(0,0,0,.4)}
+    .botao-jogos:hover{background:var(--accent-hover)}
+
+    /* QUIZZES */
+    .conteudo{display:flex;flex-wrap:wrap;justify-content:center;gap:40px;padding:20px 0 40px}
+    .box-esquerda{background:var(--card-bg);border-radius:8px;padding:18px;text-align:center;width:300px;box-shadow:0 4px 8px rgba(0,0,0,.5)}
+    .box-esquerda p{margin:0 0 12px 0;font-size:20px;color:#fff}
+    .box-esquerda img{width:100%;height:auto;max-height:250px;object-fit:cover;border-radius:4px;display:block;margin:0 auto}
+
+    /* Sections */
+    .section{background:rgba(0,0,0,0.55);border-radius:10px;padding:24px;margin-bottom:20px}
+    .section h2{font-size:24px;margin:0 0 12px;color:var(--yellow);text-shadow:2px 2px 4px black;display:flex;align-items:center;gap:12px;justify-content:center}
+    .count-badge{background:rgba(0,0,0,0.4);padding:4px 8px;border-radius:999px;font-size:14px;color:#fff;border:1px solid rgba(255,255,255,0.06)}
+
+    .videos-container{display:flex;flex-wrap:wrap;gap:14px;justify-content:center}
+    .video-card{width:220px;background:rgba(0,0,0,0.65);border-radius:8px;overflow:hidden;box-shadow:0 3px 8px rgba(0,0,0,0.7);cursor:pointer;transition:transform .12s}
+    .video-card:hover{transform:translateY(-6px)}
+    .thumb{width:100%;display:block}
+    .video-info{padding:8px;font-size:13px;color:#fff}
+    .video-info .title{font-weight:700;height:38px;overflow:hidden}
+    .video-info .meta{font-size:12px;opacity:.85;margin-top:6px}
+
+    /* modal */
+    .modal{display:none;position:fixed;z-index:9999;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.85);align-items:center;justify-content:center;padding:20px}
+    .modal.open{display:flex}
+    .modal .modal-content{width:90%;max-width:960px;background:#000;border-radius:10px;position:relative;padding-top:56.25% /*16:9*/;overflow:hidden}
+    .modal iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:0}
+    .close-modal{position:absolute;right:10px;top:6px;font-size:28px;color:#fff;background:none;border:none;cursor:pointer;z-index:10}
+
+    /* small screens */
+    @media(max-width:900px){
+      .video-card{width:47%}
+    }
+    @media(max-width:600px){
+      .titulo{padding-top:100px;font-size:22px}
+      .video-card{width:100%}
+      .botao-jogos{top:200px}
+    }
+
+    .small-note{font-size:13px;opacity:.9;text-align:center;margin-top:8px}
+    .loader{display:inline-block;padding:6px 10px;border-radius:6px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.04);font-size:14px}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="titulo">
+      BEM-VINDO AO QUIZ
+      <a class="botao-jogos" href="diversao.html" target="_blank">Jogos</a>
+    <a class="botao-jogos" href="quiz.html" target="_blank" style="top: 290px; right: -50px;">+quiz</a>
+
+</div>
+
+    <!-- QUIZZES -->
+    <div class="conteudo" aria-label="quizzes">
+      <div class="box-esquerda">
+        <p>quiz 01</p>
+        <a href="index1.html"><img src="imagem.jpg" alt="Imagem do quiz 1"></a>
+      </div>
+      <div class="box-esquerda">
+        <p>quiz 02</p>
+        <a href="index2.html"><img src="imagem2.jpg" alt="Imagem do quiz 2"></a>
+      </div>
+      <div class="box-esquerda">
+        <p>quiz 03</p>
+        <a href="index3.html"><img src="imagem3.jpg" alt="Imagem do quiz 3"></a>
+      </div>
+      <div class="box-esquerda">
+        <p>quiz 04</p>
+        <a href="index4.html"><img src="imagem4.jpg" alt="Imagem do quiz 4"></a>
+      </div>
+      <div class="box-esquerda">
+        <p>quiz 05</p>
+        <a href="index5.html"><img src="imagem5.jpg" alt="Imagem do quiz 5"></a>
+      </div>
+      <div class="box-esquerda">
+        <p>quiz 06</p>
+        <a href="index6.html"><img src="imagem6.jpg" alt="Imagem do quiz 6"></a>
+      </div>
+      <div class="box-esquerda">
+        <p>quiz 07</p>
+        <a href="index7.html"><img src="imagem7.jpg" alt="Imagem do quiz 7"></a>
+      </div>
+    </div>
+
+    <!-- VÍDEOS (normais) -->
+    <div id="videosSection" class="section">
+      <h2>Vídeos <span id="videosCount" class="count-badge">0</span></h2>
+      <div id="videos" class="videos-container">
+        <div class="small-note loader">Carregando vídeos...</div>
+      </div>
+    </div>
+
+    <!-- LIVES -->
+    <div id="livesSection" class="section">
+      <h2>Lives <span id="livesCount" class="count-badge">0</span></h2>
+      <div id="lives" class="videos-container">
+        <div class="small-note loader">Carregando lives...</div>
+      </div>
+    </div>
+
+    <!-- SHORTS -->
+    <div id="shortsSection" class="section">
+      <h2>Shorts <span id="shortsCount" class="count-badge">0</span></h2>
+      <div id="shorts" class="videos-container">
+        <div class="small-note loader">Carregando shorts...</div>
+      </div>
+    </div>
+
+    <p class="small-note">Obs: clique em qualquer miniatura para abrir o vídeo em um modal.</p>
+  </div>
+
+  <!-- Modal -->
+  <div id="videoModal" class="modal" aria-hidden="true">
+    <div class="modal-content" role="dialog" aria-modal="true">
+      <button class="close-modal" id="closeModal" aria-label="Fechar">✖</button>
+      <iframe id="playerIframe" src="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
+  </div>
+
+  <script>
+    /***** CONFIG - substitua aqui *****/
+    const API_KEY = "AIzaSyBb_kpmqNlrFfi3r2wzNtFJnOAwGjbenms";         // ← coloque sua chave aqui
+    const CHANNEL_ID = "UC1qDH9or0_PEtt7hVGBBkeA";   // ← coloque o ID do canal aqui
+    /*************************************/
+
+    // containers
+    const videosContainer = document.getElementById('videos');
+    const livesContainer  = document.getElementById('lives');
+    const shortsContainer = document.getElementById('shorts');
+    const videosCountEl   = document.getElementById('videosCount');
+    const livesCountEl    = document.getElementById('livesCount');
+    const shortsCountEl   = document.getElementById('shortsCount');
+
+    const modal = document.getElementById('videoModal');
+    const iframe = document.getElementById('playerIframe');
+    const closeModalBtn = document.getElementById('closeModal');
+
+    // Parse ISO8601 duration (e.g. PT1H2M3S) -> seconds
+    function parseISO8601Duration(iso) {
+      if (!iso) return 0;
+      const match = iso.match(/PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/);
+      if (!match) return 0;
+      const hours = parseInt(match[1]||0,10);
+      const minutes = parseInt(match[2]||0,10);
+      const seconds = parseInt(match[3]||0,10);
+      return hours*3600 + minutes*60 + seconds;
+    }
+
+    function formatDate(iso) {
+      try {
+        const d = new Date(iso);
+        return d.toLocaleDateString('pt-BR', { day:'2-digit', month:'short', year:'numeric' });
+      } catch(e){ return iso; }
+    }
+
+    // get uploads playlist id for channel
+    async function getUploadsPlaylistId() {
+      const url = `https://www.googleapis.com/youtube/v3/channels?part=contentDetails&id=${CHANNEL_ID}&key=${API_KEY}`;
+      const res = await fetch(url);
+      const json = await res.json();
+      if (json.error) throw new Error(json.error.message || 'Erro ao buscar canal');
+      const items = json.items || [];
+      if (!items.length) throw new Error('Canal não encontrado (verifique CHANNEL_ID)');
+      return items[0].contentDetails.relatedPlaylists.uploads;
+    }
+
+    // fetch all items from a playlist (paginated)
+    async function fetchAllPlaylistVideoIds(playlistId) {
+      let videoIds = [];
+      let pageToken = '';
+      do {
+        const url = `https://www.googleapis.com/youtube/v3/playlistItems?part=contentDetails&playlistId=${playlistId}&maxResults=50${pageToken?`&pageToken=${pageToken}`:''}&key=${API_KEY}`;
+        const res = await fetch(url);
+        const json = await res.json();
+        if (json.error) throw new Error(json.error.message || 'Erro playlistItems');
+        (json.items || []).forEach(it => {
+          if (it.contentDetails && it.contentDetails.videoId) videoIds.push(it.contentDetails.videoId);
+        });
+        pageToken = json.nextPageToken || '';
+      } while (pageToken);
+      return videoIds;
+    }
+
+    // fetch video details in batches of up to 50
+    async function fetchVideoDetailsBatch(ids) {
+      const batches = [];
+      for (let i=0;i<ids.length;i+=50) {
+        batches.push(ids.slice(i,i+50));
+      }
+      const results = [];
+      for (const batch of batches) {
+        const url = `https://www.googleapis.com/youtube/v3/videos?part=snippet,contentDetails,liveStreamingDetails&id=${batch.join(',')}&maxResults=50&key=${API_KEY}`;
+        const res = await fetch(url);
+        const json = await res.json();
+        if (json.error) throw new Error(json.error.message || 'Erro videos.list');
+        (json.items || []).forEach(it => results.push(it));
+      }
+      return results;
+    }
+
+    // create card element (thumbnail + info)
+    function createCard(video) {
+      const id = video.id;
+      const title = video.snippet.title;
+      const thumb = (video.snippet.thumbnails && (video.snippet.thumbnails.medium || video.snippet.thumbnails.high || video.snippet.thumbnails.default))?.url
+                    || `https://img.youtube.com/vi/${id}/hqdefault.jpg`;
+      const published = video.snippet.publishedAt ? formatDate(video.snippet.publishedAt) : '';
+      const card = document.createElement('div');
+      card.className = 'video-card';
+      card.innerHTML = `
+        <img class="thumb" src="${thumb}" alt="${escapeHtml(title)}" loading="lazy">
+        <div class="video-info">
+          <div class="title">${escapeHtml(title)}</div>
+          <div class="meta">${published}</div>
+        </div>
+      `;
+      card.dataset.videoId = id;
+      card.addEventListener('click', () => openModalWithVideo(id));
+      return card;
+    }
+
+    function escapeHtml(text) {
+      return text.replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;');
+    }
+
+    function openModalWithVideo(videoId) {
+      iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`;
+      modal.classList.add('open');
+      modal.setAttribute('aria-hidden','false');
+    }
+
+    function closeModal() {
+      iframe.src = '';
+      modal.classList.remove('open');
+      modal.setAttribute('aria-hidden','true');
+    }
+
+    closeModalBtn.addEventListener('click', closeModal);
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) closeModal();
+    });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
+
+    // main
+    async function loadAndClassifyAll() {
+      try {
+        // clear containers and show loaders
+        videosContainer.innerHTML = `<div class="small-note loader">Carregando vídeos...</div>`;
+        livesContainer.innerHTML  = `<div class="small-note loader">Carregando lives...</div>`;
+        shortsContainer.innerHTML = `<div class="small-note loader">Carregando shorts...</div>`;
+
+        const uploadsPlaylistId = await getUploadsPlaylistId();
+        const allVideoIds = await fetchAllPlaylistVideoIds(uploadsPlaylistId);
+
+        if (!allVideoIds.length) {
+          videosContainer.innerHTML = '<div class="small-note">Nenhum vídeo encontrado.</div>';
+          livesContainer.innerHTML  = '<div class="small-note">Nenhuma live encontrada.</div>';
+          shortsContainer.innerHTML = '<div class="small-note">Nenhum short encontrado.</div>';
+          return;
+        }
+
+        // fetch details
+        const details = await fetchVideoDetailsBatch(allVideoIds);
+
+        // classify
+        const videosList = [];
+        const livesList  = [];
+        const shortsList = [];
+
+        details.forEach(v => {
+          const durationSec = parseISO8601Duration(v.contentDetails?.duration || '');
+          const isShort = durationSec > 0 && durationSec <= 60;
+          const hasLiveDetails = !!v.liveStreamingDetails;
+          const liveBroadcastFlag = (v.snippet && v.snippet.liveBroadcastContent && v.snippet.liveBroadcastContent !== 'none');
+
+          // classify as live if liveStreamingDetails present OR flag set (live/upcoming) OR if actualStartTime exists
+          const isLive = hasLiveDetails || liveBroadcastFlag;
+
+          if (isLive) {
+            livesList.push(v);
+          } else if (isShort) {
+            shortsList.push(v);
+          } else {
+            videosList.push(v);
+          }
+        });
+
+        // sort each by publishedAt desc
+        const sortByDateDesc = arr => arr.sort((a,b)=> new Date(b.snippet.publishedAt) - new Date(a.snippet.publishedAt));
+        sortByDateDesc(videosList); sortByDateDesc(livesList); sortByDateDesc(shortsList);
+
+        // render
+        renderList(videosContainer, videosList);
+        renderList(livesContainer, livesList);
+        renderList(shortsContainer, shortsList);
+
+        videosCountEl.textContent = videosList.length;
+        livesCountEl.textContent  = livesList.length;
+        shortsCountEl.textContent = shortsList.length;
+
+      } catch (err) {
+        console.error(err);
+        const msg = `Erro ao carregar vídeos: ${err.message || err}`;
+        videosContainer.innerHTML = `<div class="small-note">${msg}</div>`;
+        livesContainer.innerHTML  = `<div class="small-note">${msg}</div>`;
+        shortsContainer.innerHTML = `<div class="small-note">${msg}</div>`;
+      }
+    }
+
+    function renderList(container, items) {
+      container.innerHTML = '';
+      if (!items.length) {
+        container.innerHTML = '<div class="small-note">Nenhum item encontrado.</div>';
+        return;
+      }
+      items.forEach(item => {
+        const card = createCard(item);
+        container.appendChild(card);
+      });
+    }
+
+    // start on load
+    window.addEventListener('load', () => {
+      if (!API_KEY || API_KEY === 'YOUR_API_KEY') {
+        const msg = '⚠️ Insira sua API_KEY e CHANNEL_ID no topo do arquivo antes de carregar os vídeos.';
+        videosContainer.innerHTML = `<div class="small-note">${msg}</div>`;
+        livesContainer.innerHTML  = `<div class="small-note">${msg}</div>`;
+        shortsContainer.innerHTML = `<div class="small-note">${msg}</div>`;
+        return;
+      }
+      loadAndClassifyAll();
+    });
+
+
+  </script>
+
+ <a href='https://www.free-counters.org/'>https://www.free-counters.org/</a> <script type='text/javascript' src='https://www.freevisitorcounters.com/auth.php?id=91285945734957813c79a9d792902390068ff884'></script>
+<script type="text/javascript" src="https://www.freevisitorcounters.com/en/home/counter/1392618/t/5"></script>
+
+
+<!-- RODAPÉ MODERNO -->
+<footer class="footer">
+  <div class="footer-container">
+    <div class="footer-logo">
+      <h3>QuizTube Minecraft</h3>
+      <p>Divirta-se com quizzes, vídeos, lives,shorts e jogos educativos minecraft .</p>
+    </div>
+
+    <div class="footer-links">
+      <a href="sobrenos.html">Sobre Nós</a>
+      <a href="legislacao.html">Legislação</a>
+      <a href="faleconosco.html">Fale Conosco</a>
+      <a href="privacidade.html">Política de Privacidade</a>
+    
+
+
+
+</div>
+  </div>
+  <div class="footer-bottom">
+    <p>&copy; 2025 QuizTube. Todos os direitos reservados.</p>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    background-color: rgba(0, 0, 0, 0.85);
+    color: #fff;
+    padding: 40px 20px 20px;
+    font-family: 'Roboto Slab', serif;
+    margin-top: 60px;
+  }
+
+  .footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 30px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    padding-bottom: 20px;
+  }
+
+  .footer-logo h3 {
+    margin: 0;
+    font-size: 24px;
+    color: var(--yellow);
+  }
+
+  .footer-logo p {
+    font-size: 14px;
+    opacity: 0.85;
+    margin-top: 8px;
+  }
+
+  .footer-links {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .footer-links a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 14px;
+    transition: color 0.3s ease;
+  }
+
+  .footer-links a:hover {
+    color: var(--accent);
+  }
+
+  .footer-bottom {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 13px;
+    opacity: 0.8;
+  }
+
+  @media(max-width: 600px) {
+    .footer-container {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .footer-links {
+      align-items: center;
+    }
+  }
+</style>
+
+
+</body>
+
+
+</html>

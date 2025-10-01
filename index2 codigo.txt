@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Minecraft</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            max-width: 700px;
+            margin: auto;
+            background-image: url('imagem2.jpg');  /* Alterado para imagem2.jpg */
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: white;
+            position: relative;
+        }
+        h1, h2, h3 {
+            text-align: center;
+            color: black;
+        }
+        .question {
+            margin-bottom: 20px;
+            color: black;
+        }
+        .answers button {
+            display: block;
+            margin: 10px 0;
+            padding: 10px;
+            width: 100%;
+            font-size: 16px;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+        #feedback {
+            font-weight: bold;
+            margin-top: 15px;
+            text-align: center;
+            color: black;
+        }
+        #status {
+            position: fixed;
+            top: 10px;
+            right: 20px;
+            font-size: 18px;
+            font-weight: bold;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        #final-buttons {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .feedback-img {
+            display: none;
+            margin: 10px auto;
+            max-width: 200px;
+            height: auto;
+            border: 3px solid white;
+            border-radius: 8px;
+        }
+        .quiz-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .question-text {
+            flex: 1;
+            text-align: left;
+        }
+        .question-image {
+            flex-shrink: 0;
+            margin-left: 20px;
+        }
+        .final-message {
+            font-size: 50px;
+            font-weight: bold;
+            color: yellow;
+            text-align: center;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+        }
+        .final-buttons button {
+            padding: 15px 30px;
+            margin: 10px;
+            font-size: 18px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .final-buttons button:hover {
+            background-color: #45a049;
+        }
+        /* Estilo para o contador de acessos */
+        #contador {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            font-size: 12px;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Quiz Minecraft</h1>
+    <div id="status">✅ Acertos: 0 | ❌ Erros: 0</div>
+    <div id="quiz"></div>
+    <div id="feedback"></div>
+    <div id="final-buttons" style="display: none;">
+        <div id="final-message" class="final-message"></div>
+        <div class="final-buttons">
+            <button onclick="finalizarQuiz()">Finalizar</button>
+        </div>
+    </div>
+
+    <!-- Contador de acessos -->
+    <div id="contador"></div>
+
+    <script>
+        // Inicializa o contador de acessos
+        if (localStorage.getItem("contadorAcessos")) {
+            let contador = parseInt(localStorage.getItem("contadorAcessos"));
+            contador += 1;
+            localStorage.setItem("contadorAcessos", contador);
+        } else {
+            localStorage.setItem("contadorAcessos", 1);
+        }
+
+        // Exibe o contador de acessos na tela
+        function exibirContadorAcessos() {
+            const contador = localStorage.getItem("contadorAcessos");
+            document.getElementById("contador").innerText = `Acessos: ${contador}`;
+        }
+
+        // Função para mostrar o quiz e atualizar o contador
+        const perguntas = [
+            {
+                pergunta: "Em que biome você encontra a estrutura da Fortaleza no Minecraft?",
+                opcoes: ["Deserto", "Planície", "Selva", "End"],
+                respostaCorreta: 3
+            },
+            {
+                pergunta: "Qual é o nome do encantamento que permite que você caminhe sobre a água?",
+                opcoes: ["Caminho Rápido", "Respiração Aquática", "Passo Gelado", "Caminhada Sob Águas"],
+                respostaCorreta: 2
+            },
+            {
+                pergunta: "Qual é o bloco usado para fazer a cama?",
+                opcoes: ["Bloco de Couro", "Lã", "Bloco de Madeira", "Pedra"],
+                respostaCorreta: 1
+            },
+            {
+                pergunta: "Qual mob aparece no Minecraft apenas à noite e que pode ser montado?",
+                opcoes: ["Lobo", "Cavalo", "Creeper", "Esqueleto"],
+                respostaCorreta: 1
+            },
+            {
+                pergunta: "Qual é a receita para criar uma Fornalha?",
+                opcoes: ["3 pedras e 4 madeiras", "8 pedras", "5 pedras e 2 madeiras", "8 madeiras"],
+                respostaCorreta: 1
+            },
+            {
+                pergunta: "Qual bloco é necessário para fazer uma poção de Invisibilidade?",
+                opcoes: ["Bloco de Obsidiana", "Gema de Blaze", "Fermento de Poção", "Pó de Ender"],
+                respostaCorreta: 2
+            },
+            {
+                pergunta: "Em qual dimensão você pode encontrar o Dragão do Fim?",
+                opcoes: ["Nether", "Fim", "Overworld", "Caverna"],
+                respostaCorreta: 1
+            },
+            {
+                pergunta: "Qual item você usa para iluminar a caverna sem precisar de tocha?",
+                opcoes: ["Lanterna de Lava", "Luz do Sol", "Tocha de Blaze", "Lanterna de Glowstone"],
+                respostaCorreta: 3
+            },
+            {
+                pergunta: "O que você precisa para criar um portal para o Nether?",
+                opcoes: ["Madeira e Lava", "Obsidiana e Lava", "Obsidiana e Pedras", "Madeira e Areia"],
+                respostaCorreta: 1
+            },
+            {
+                pergunta: "Qual é a principal função da Poção de Cura Instantânea?",
+                opcoes: ["Aumentar o dano", "Curar instantaneamente", "Proteger contra mobs", "Aumentar a velocidade de movimento"],
+                respostaCorreta: 1
+            }
+        ];
+
+        let perguntaAtual = 0;
+        let acertos = 0;
+        let erros = 0;
+        let perguntaRespondida = false;
+
+        function atualizarStatus() {
+            document.getElementById("status").innerText = `✅ Acertos: ${acertos} | ❌ Erros: ${erros}`;
+        }
+
+        function mostrarPergunta() {
+            const quizDiv = document.getElementById("quiz");
+            const feedback = document.getElementById("feedback");
+            feedback.innerHTML = "";
+            perguntaRespondida = false;
+
+            if (perguntaAtual >= perguntas.length) {
+                const total = acertos + erros;
+                const percentual = ((acertos / total) * 100).toFixed(1);
+                quizDiv.innerHTML = `<h2>Fim do Quiz!</h2>
+                    <p style="text-align:center;">✅ Acertos: ${acertos} | ❌ Erros: ${erros}</p>
+                    <p style="text-align:center;">🎯 Porcentagem de acerto: ${percentual}%</p>`;
+                
+                const finalMessage = document.getElementById("final-message");
+
+                if (percentual >= 100) {
+                    finalMessage.innerHTML = "Você é um mestre do Minecraft!";
+                } else if (percentual >= 80) {
+                    finalMessage.innerHTML = "Muito bom! Você joga bem!";
+                } else if (percentual >= 60) {
+                    finalMessage.innerHTML = "Você é bom, mas ainda pode melhorar!";
+                } else {
+                    finalMessage.innerHTML = "Vamos treinar mais um pouco!";
+                }
+
+                document.getElementById("final-buttons").style.display = "block";
+                return;
+            }
+
+            const pergunta = perguntas[perguntaAtual];
+            let html = `<div class="quiz-container">
+                            <div class="question-text">
+                                <h3>${pergunta.pergunta}</h3>
+                                <div class="answers">`;
+            pergunta.opcoes.forEach((opcao, index) => {
+                html += `<button onclick="verificarResposta(${index}, this)">${opcao}</button>`;
+            });
+            html += `</div></div>
+                    <div class="question-image">
+                        <img src="1.gif" alt="Imagem de erro" id="imageErro" class="feedback-img">
+                        <img src="2.gif" alt="Imagem de acerto" id="imageAcerto" class="feedback-img">
+                    </div>
+                </div>`;
+
+            quizDiv.innerHTML = html;
+        }
+
+        function verificarResposta(indiceSelecionado, button) {
+            if (perguntaRespondida) return;
+
+            perguntaRespondida = true;
+
+            const pergunta = perguntas[perguntaAtual];
+            const feedback = document.getElementById("feedback");
+            const imgAcerto = document.getElementById("imageAcerto");
+            const imgErro = document.getElementById("imageErro");
+
+            // Desabilitar botões após a resposta
+            const buttons = document.querySelectorAll(".answers button");
+            buttons.forEach(btn => btn.disabled = true);
+
+            if (indiceSelecionado === pergunta.respostaCorreta) {
+                acertos++;
+                feedback.innerHTML = "✅ Acertou!";
+                imgAcerto.style.display = "block"; 
+                imgErro.style.display = "none"; 
+            } else {
+                erros++;
+                feedback.innerHTML = "❌ Errou!";
+                imgErro.style.display = "block"; 
+                imgAcerto.style.display = "none"; 
+            }
+
+            atualizarStatus();
+
+            setTimeout(() => {
+                perguntaAtual++;
+                mostrarPergunta();
+            }, 2000);
+        }
+
+        function finalizarQuiz() {
+            document.body.innerHTML = "<h1 style='font-size: 50px; color: yellow; text-align: center;'>Obrigado por jogar! Até a próxima!</h1>";
+        }
+
+        // Exibir contador de acessos ao carregar a página
+        exibirContadorAcessos();
+
+        // Inicializa o quiz
+        atualizarStatus();
+        mostrarPergunta();
+    </script>
+</body>
+</html>

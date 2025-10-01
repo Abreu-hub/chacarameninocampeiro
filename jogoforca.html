@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-DEKRSE4D4M"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-DEKRSE4D4M');
+</script>
+
+
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Jogo da Forca</title>
+  <style>
+
+
+
+
+
+    body {
+
+font-family: 'Segoe UI', sans-serif;
+  background: url('forca.jpg') no-repeat center center fixed;
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+
+
+}
+
+
+
+
+{
+
+
+
+
+
+
+
+
+
+      font-family: 'Segoe UI', sans-serif;
+      background: #f1f1f1;
+      display: flex;
+      justify-content: center;
+      padding: 20px;
+    }
+    .container {
+      text-align: center;
+      max-width: 600px;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    svg {
+      margin: 20px 0;
+    }
+    .parte {
+      stroke: #333;
+      stroke-width: 4;
+      display: none;
+    }
+    .palavra {
+      font-size: 2rem;
+      letter-spacing: 10px;
+      margin: 20px 0;
+    }
+    .letras-erradas {
+      color: red;
+      font-weight: bold;
+    }
+    input[type="text"] {
+      padding: 10px;
+      font-size: 1.2rem;
+      width: 50px;
+      text-align: center;
+    }
+    button {
+      margin-top: 15px;
+      padding: 10px 20px;
+      font-size: 1rem;
+      background: #0078d7;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    #mensagem {
+      margin-top: 10px;
+      font-size: 1.1rem;
+      font-weight: bold;
+    }
+    #pontuacao {
+      font-size: 1.2rem;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Jogo da Forca</h1>
+    <div id="pontuacao">Pontuação: 0</div>
+    <svg height="250" width="200" class="forca">
+      <line x1="20" y1="230" x2="180" y2="230" />
+      <line x1="50" y1="230" x2="50" y2="20" />
+      <line x1="50" y1="20" x2="120" y2="20" />
+      <line x1="120" y1="20" x2="120" y2="50" />
+      <circle cx="120" cy="70" r="20" class="parte" />
+      <line x1="120" y1="90" x2="120" y2="150" class="parte" />
+      <line x1="120" y1="110" x2="100" y2="130" class="parte" />
+      <line x1="120" y1="110" x2="140" y2="130" class="parte" />
+      <line x1="120" y1="150" x2="100" y2="190" class="parte" />
+      <line x1="120" y1="150" x2="140" y2="190" class="parte" />
+    </svg>
+    <div class="palavra" id="palavra">_ _ _ _ _</div>
+    <div class="letras-erradas" id="letrasErradas"></div>
+    <input type="text" id="inputLetra" maxlength="1" autofocus placeholder="Digite uma letra" />
+    <div id="mensagem"></div>
+    <button onclick="reiniciarJogo()">Reiniciar Jogo</button>
+  </div>
+
+  <script>
+    const palavras = [
+      "abacate", "abacaxi", "abelha", "abertura", "abismo", "abobrinha", "absoluto",
+      "absorver", "abstrato", "acabamento", "academia", "acelerar", "aceitar", "achar",
+      "acidente", "acreditar", "aeronauta", "agenda", "alegria", "alface", "alimento",
+      "alquimia", "amarelo", "amizade", "amplificar", "andar", "anel", "animal",
+      "anjo", "aparência", "aprender", "arco", "arena", "armário", "arte", "asa",
+      "atitude", "atrativo", "aumentar", "automóvel", "avião", "azeite", "azul",
+      "banheiro", "barco", "bateria", "bebida", "beleza", "bicicleta", "bola",
+      "borboleta", "brilho", "brinquedo", "brotar", "cabelo", "cachorro", "cacto",
+      "cadeira", "caderno", "café", "caminhão", "caminho", "caneta", "cantar",
+      "capivara", "carro", "carta", "cartola", "casa", "cascata", "castelo",
+      "cavalo", "celular", "cenoura", "cereja", "chave", "chuva", "cinto",
+      "cidade", "claridade", "clima", "coração", "computador", "conectar",
+      "conquista", "controle", "corrida", "crescer", "criatividade", "criança",
+      "cristal", "dançar", "dedo", "desafio", "descoberta", "desenho", "desejo",
+      "destino", "determinação", "diamante", "dicionário", "diferença", "dinheiro",
+      "dinossauro", "disciplina", "diversão", "doce", "dragão", "energia", "enigma",
+      "ensinar", "escola", "espelho", "esperança", "esporte", "estilo", "estrela","abdução", "abissal", "abono", "abrigo", "abstenção", "acarajé", "acento", "acervo",
+  "adesivo", "adição", "admirar", "adoçar", "adorno", "adubo", "aeródromo", "afeto",
+  "afiar", "afogado", "agasalho", "agitar", "agricultor", "agulha", "ajuda", "ajuste",
+  "alavanca", "alcance", "aldeia", "alento", "alfabeto", "algema", "alicate", "aliviar",
+  "almofada", "altar", "alvo", "amassar", "ambiente", "amendoim", "amizades", "amostra",
+  "amuleto", "análise", "ancora", "andorinha", "anelar", "anexo", "aniversário", "anulação",
+  "apanhar", "aperto", "apito", "aplausos", "aprender", "aprovar", "aquecer", "aranha",
+  "arco-íris", "areia", "armadura", "aromático", "arrastar", "arteiro", "asa-delta", "assento",
+  "astro", "atacar", "atento", "aterrar", "atitude", "atleta", "atracar", "atrás",
+  "atributo", "atualizar", "audição", "aumentar", "autorizar", "auxílio", "avançar", "aventura",
+  "avisar", "azulejo", "bagagem", "balança", "baleia", "balão", "banhar", "barulho",
+  "batida", "bebê", "beijo", "berço", "bicho", "bilhete", "biscoito", "bloquinho",
+  "bocejar", "boiadeiro", "bombeiro", "branco", "brasa", "breve", "brincadeira", "bronze", "cachorro", "cadeira", "caminho", "cabelo", "coração", "cavalo", "caneta", "casa",
+  "cidade", "clima", "cobertor", "colher", "computador", "copo", "corda", "coração",
+  "corrida", "cortina", "costura", "cozinha", "criatura", "criança", "cristal", "cubo",
+  "culpa", "cultura", "curioso", "curso", "custódia", "cálice", "câncer", "céu",
+  "cérebro", "cúpula", "cúmplice", "código", "côncavo", "cômico", "cópia", "coração",
+  "caixa", "calça", "calor", "calvo", "campo", "canal", "canção", "canoa", "caos",
+  "carro", "carne", "carroça", "carta", "casaco", "castelo", "castigo", "catalão",
+  "causar", "cavalo", "cavidade", "cebola", "celular", "cena", "cenoura", "censo", "dado", "dança", "dançar", "dente", "deserto", "desenho", "despensa", "desejo",
+  "destino", "detalhe", "dever", "diário", "diamante", "dicionário", "diferença",
+  "dinheiro", "dinossauro", "disciplina", "disco", "disfarce", "disputa", "distância",
+  "diversão", "doce", "doente", "dominar", "domingo", "dor", "dormir", "dosagem",
+  "dólar", "duende", "dupla", "durante", "duro", "dúvida", "dócil", "débil",
+  "dólar", "dó", "dócil", "déficit", "dócil", "delícia", "desejar", "desfazer",
+  "desligar", "desmaio", "despertar", "destacar", "destruir","elefante", "escola", "esquilo", "estrela", "estrada", "esfinge", "esfera", "esconde",
+  "espelho", "espada", "esperança", "esporte", "estudo", "exemplo", "exame", "elevar",
+  "eleição", "emprego", "energia", "enigma", "encontro", "entender", "entregar", "enviar",
+  "enxame", "escrever", "escuro", "escada", "esquema", "esquiar", "estação", "estante",
+  "estilo", "estômago", "evitar", "evidente", "exclusivo", "exótico", "exercício", "exílio",
+  "explorar", "expor", "extenso", "extremo", "egoísmo", "economia", "ecologia", "editor","fada", "fábrica", "fagulha", "falar", "família", "famoso", "fardo", "farol",
+  "fazer", "febre", "feira", "felicidade", "férias", "ferida", "ferro", "festa",
+  "filme", "filtro", "final", "fingir", "fino", "fiscal", "fita", "fivela",
+  "flor", "foca", "fogão", "folha", "fome", "fonte", "força", "forno",
+  "formiga", "formoso", "forte", "fósforo", "fotos", "fraco", "fralda", "frango",
+  "frase", "freio", "freno", "frio", "frito", "fruta", "fugir", "fumaça",
+  "função", "fundo", "furacão", "furto", "futebol", "gato", "garrafa", "galinha", "garagem", "gelo", "gema", "genro", "gente",
+  "geral", "girar", "giz", "golfinho", "goleiro", "gordura", "gorro", "grama",
+  "grande", "gratuito", "gravata", "grelha", "grito", "grupo", "guarda", "guia",
+  "guerra", "guiar", "guitarra", "guloseima", "galáxia", "gambiarra", "gangorra", "garimpo",
+  "garganta", "gasolina", "gaveta", "geografia", "gerente", "gesto", "gigante", "gíria",
+  "glaciar", "global", "glória", "golpe", "goma", "gota", "gráfico", "greve","habilidade", "habitar", "hábito", "hálito", "harmonia", "haste", "helicóptero", "herói",
+  "herança", "herbívoro", "hermano", "higiene", "história", "homem", "honesto", "horizonte",
+  "hora", "hospital", "hotel", "houve", "humano", "humilde", "humor", "hurra",
+  "hífen", "hígado", "hábitat", "hélice", "hóstia", "há", "hábil", "horizonte",
+  "hábitos", "histeria", "holofote", "homenagem", "homônimo", "hostil", "hospedar", "houston",
+  "humidade", "hidratar", "hierarquia", "hipótese", "histérico", "homem", "horda", "hospitalidade", "ilha", "imagem", "imã", "impar", "importante", "imposto", "incluir", "início",
+  "inseto", "instante", "intenso", "interior", "investir", "índio", "ícone", "igreja",
+  "ilha", "iluminar", "ilusão", "imensidão", "imitar", "impacto", "impulso", "inverno",
+  "irritar", "isca", "isolado", "ideal", "ídolo", "identidade", "idioma", "idiota",
+  "ilustre", "imagem", "imensidade", "imenso", "imprensa", "impresso", "improviso", "imóvel",
+  "incêndio", "inclusão", "inconsciente", "incrível", "indicar", "indústria", "inédito", "infância","janela", "jardim", "jarra", "jazida", "jato", "jaula", "jeito", "joia",
+  "jogo", "jornal", "jovem", "jubileu", "juiz", "julho", "junho", "junção",
+  "juramento", "justiça", "jabuti", "jacaré", "jaleco", "janela", "janta", "jarra",
+  "jasmim", "jejum", "jerimum", "joelho", "joia", "jogo", "jornada", "juba",
+  "judô", "jugular", "juiz", "junco", "juntar", "jurado", "justo", "juventude",
+  "jiboia", "jirau", "jornalista", "jornada", "jurássico", "justaposição", "juvenil", "jabá","lâmpada", "lado", "lagarto", "lago", "lama", "lâmina", "lance", "lanche",
+  "lápis", "laranja", "larva", "lasanha", "lata", "latido", "lavar", "leão",
+  "leite", "leito", "leitura", "lenda", "lento", "leque", "ler", "liberdade",
+  "líder", "linha", "lixo", "loja", "lobo", "lugar", "luz", "luzir",
+  "lágrima", "lócus", "lúdico", "lúgubre", "luxo", "laboratório", "lacuna", "lagarta",
+  "lamentar", "lançar", "lapso", "largura", "lascado", "latejar", "lavanda", "lealdade","mãe", "maçã", "madeira", "mágico", "mala", "malha", "manga", "manteiga",
+  "mapa", "mar", "marca", "marco", "marfim", "marmita", "marreco", "martelo",
+  "mascara", "massa", "matemática", "matiz", "máximo", "medalha", "meia", "mel",
+  "melhor", "memória", "menino", "menos", "mês", "mesa", "metal", "metro",
+  "miolo", "minuto", "miragem", "mistério", "moda", "modelo", "molho", "monstro",
+  "montanha", "moral", "morar", "morcego", "mover", "moça", "mulher", "mundo","navio", "natureza", "natal", "neve", "negócio", "ninho", "nível", "noite",
+  "número", "nutrir", "nuvem", "nulo", "nome", "norte", "nota", "nobre",
+  "novela", "novo", "número", "nutrir", "nós", "nariz", "narração", "narval",
+  "necessário", "negligência", "nervoso", "neutral", "nível", "noção", "norma", "notícia",
+  "noturno", "núcleo", "número", "nuvem", "núpcias", "nutriente", "número", "nódoa","oceano", "óleo", "olho", "ombra", "ônibus", "onda", "ontem", "opção",
+  "orador", "orquestra", "órgão", "origem", "orvalho", "osso", "ouvido", "ouro",
+  "outono", "ovelha", "oxigênio", "óculos", "oração", "orla", "órbita", "orçamento",
+  "ostentar", "otimismo", "outro", "ousado", "ovelha", "ópera", "óvulo", "óptico",
+  "óbvio", "óxido", "óptica", "ódio", "óbito", "oficial", "oficina", "olfato","pá", "padeiro", "página", "página", "palavra", "palmada", "palmeira", "pano",
+  "pântano", "papagaio", "papel", "pássaro", "passar", "pastel", "patins", "patrão",
+  "pato", "pau", "pau-brasil", "pavão", "pé", "peixe", "pele", "pelicano",
+  "penal", "pena", "pendurar", "pênsil", "pente", "pequeno", "pera", "perdão",
+  "pessoal", "pesquisa", "pessoa", "pintor", "pipa", "piscina", "pistola", "pitanga",
+  "pizza", "plano", "plantar", "plástico", "playback", "pleito", "pluma", "poça",
+  "poder", "poema", "polícia", "polvo", "ponte", "porta", "porto", "posse","quadro", "qualidade", "quantidade", "quebra", "quente", "querer", "questão", "quilômetro",
+  "química", "quiosque", "rabo", "rádio", "raiz", "ramo", "raposa", "rascunho", "raça", "raiva",
+  "reação", "realidade", "receita", "recibo", "recusar", "reduzir", "refeição", "regra",
+  "rei", "reino", "relógio", "remédio", "renascer", "repetir", "resposta", "resto",
+  "retorno", "reunião", "rever", "rico", "rifa", "risco", "ritmo", "roda",
+  "rodovia", "roupa", "rua", "rude", "sabor", "saco", "sala", "salada", "salto", "sangue", "sapo", "sarampo",
+  "satisfeito", "saxofone", "sede", "segredo", "segunda", "semente", "senso", "serra",
+  "servido", "serviço", "sete", "silêncio", "simples", "sino", "sinuca", "siri",
+  "site", "sobrinho", "sombra", "sonho", "sopa", "sorte", "subir", "sugar",
+  "suor", "surdo", "suspiro", "susto",  "tábua", "tacho", "tarde", "tarifa", "tatu", "taxi", "teatro", "tecla",
+  "telefone", "telhado", "tempero", "tempo", "tentar", "terra", "tesoura", "teste",
+  "texto", "timidez", "tinta", "tio", "título", "tocar", "toque", "torcida",
+  "torneira", "torre", "torrada", "torto", "tossir", "tostar", "total", "trabalho",
+  "trator", "travesseiro", "trecho", "treinar", "troca", "troféu", "tubo", "tudo",  "uva", "útil", "utilizar", "utopia", "urgente", "uniforme", "único", "universo",
+  "unir", "uso", "vaga", "vagão", "vai", "valor", "vampiro", "vapor", "vara", "vassoura",
+  "vaso", "vasculhar", "vedar", "veia", "veículo", "velho", "velocidade", "veludo",
+  "vena", "vencer", "venda", "vendedor", "ventilador", "vento", "verão", "verbo",
+  "verdade", "vermelho", "vestir", "viagem", "vibrar", "vida", "vidro", "vigor",
+  "vilão", "vinho", "violão", "virar", "virgem", "visão", "visitar", "viver", "xadrez", "xale", "xampu", "xarope", "xerife", "xícara", "xilofone", "xingar", "xisto", "xodó", "walkman", "web", "whisky", "watt", "wolframio", "windows", "wireless", "workflow", "wrestling", "watt", "yakisoba", "yoga", "yeti", "yacht", "yogurte", "yard", "yen", "yoga", "yoga", "yield", "zebra", "zelar", "zangado", "zangão", "zapear", "zarpar", "zebra", "zero", "ziguezague", "zumbi"
+      // ...adicione até 10.000 se desejar
+    ];
+
+    let palavraSecreta = "";
+    let letrasCorretas = [];
+    let letrasErradas = [];
+    let pontuacao = 0;
+
+    const maxErros = 6;
+    const partesBoneco = document.querySelectorAll(".parte");
+
+    function escolherPalavra() {
+      palavraSecreta = palavras[Math.floor(Math.random() * palavras.length)].toLowerCase();
+      letrasCorretas = [];
+      letrasErradas = [];
+      document.getElementById("inputLetra").disabled = false;
+      atualizarTela();
+      esconderBoneco();
+      document.getElementById("mensagem").textContent = "";
+    }
+
+    function atualizarTela() {
+      const palavraEl = document.getElementById("palavra");
+      palavraEl.textContent = palavraSecreta
+        .split("")
+        .map(letra => (letrasCorretas.includes(letra) ? letra : "_"))
+        .join(" ");
+      document.getElementById("letrasErradas").textContent = "Erradas: " + letrasErradas.join(", ");
+      document.getElementById("pontuacao").textContent = "Pontuação: " + pontuacao;
+    }
+
+    function mostrarBoneco() {
+      partesBoneco.forEach((parte, index) => {
+        parte.style.display = index < letrasErradas.length ? "block" : "none";
+      });
+    }
+
+    function esconderBoneco() {
+      partesBoneco.forEach(parte => (parte.style.display = "none"));
+    }
+
+    document.getElementById("inputLetra").addEventListener("keyup", e => {
+      const letra = e.target.value.toLowerCase();
+      e.target.value = "";
+
+      if (!letra.match(/[a-záéíóúãõç]/i) || letra.length !== 1 ||
+          letrasCorretas.includes(letra) || letrasErradas.includes(letra)) return;
+
+      if (palavraSecreta.includes(letra)) {
+        letrasCorretas.push(letra);
+      } else {
+        letrasErradas.push(letra);
+      }
+
+      atualizarTela();
+      mostrarBoneco();
+
+      if (!document.getElementById("palavra").textContent.includes("_")) {
+        document.getElementById("mensagem").textContent = "🎉 Você venceu!";
+        pontuacao++;
+        setTimeout(() => {
+          escolherPalavra();
+        }, 1500);
+      }
+
+      if (letrasErradas.length >= maxErros) {
+        document.getElementById("mensagem").textContent = "💀 Você perdeu! A palavra era: " + palavraSecreta;
+        pontuacao = 0;
+        atualizarTela();
+        document.getElementById("inputLetra").disabled = true;
+        setTimeout(() => {
+          escolherPalavra();
+        }, 2500);
+      }
+    });
+
+    function reiniciarJogo() {
+      pontuacao = 0;
+      escolherPalavra();
+    }
+
+    // Inicia o jogo
+    escolherPalavra();
+  </script>
+</body>
+</html>

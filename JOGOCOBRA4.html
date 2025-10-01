@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-DEKRSE4D4M"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-DEKRSE4D4M');
+</script>
+
+
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jogo da Cobrinha</title>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background: url('marcaagua.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: white;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      max-width: 900px;
+      padding: 10px 20px;
+      box-sizing: border-box;
+    }
+
+    h1 {
+      font-size: 30px;
+      color: black;
+      text-shadow: 2px 2px 0 #fff, 4px 4px 0 #aaa;
+      font-weight: 900;
+      text-align: left;
+      font-family: 'Anton', sans-serif;
+      margin: 0;
+    }
+
+    #nickname, #fixedName {
+      margin: 20px;
+      background: rgba(0, 0, 0, 0.7);
+      padding: 10px;
+      border-radius: 8px;
+    }
+
+    #nickname input {
+      font-size: 20px;
+      padding: 5px 10px;
+      width: 250px;
+    }
+
+    #mainArea {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 30px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+
+    .gameArea {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .canvas-container {
+      position: relative;
+      width: 300px;
+      height: 300px;
+    }
+
+    canvas {
+      background: #222;
+      border: 2px solid white;
+      z-index: 1;
+    }
+
+    #startBtn, #rankingBtn {
+      margin: 10px;
+      padding: 10px 20px;
+      font-size: 18px;
+      border: none;
+      border-radius: 10px;
+      background: #28a745;
+      color: white;
+      cursor: pointer;
+    }
+
+    #scoreboard {
+      margin: 10px;
+      background: rgba(0, 0, 0, 0.7);
+      padding: 10px;
+      border-radius: 8px;
+    }
+
+    #countdown {
+      font-size: 80px;
+      font-weight: bold;
+      display: none;
+      position: absolute;
+      top: 30%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: white;
+      z-index: 2;
+    }
+
+    #letterLine {
+      font-size: 22px;
+      margin: 10px;
+      background: rgba(0, 0, 0, 0.6);
+      padding: 10px;
+      border-radius: 10px;
+      z-index: 2;
+      text-align: center;
+    }
+
+    #rankingList {
+      background: rgba(0, 0, 0, 0.8);
+      padding: 15px;
+      border-radius: 10px;
+      width: 280px;
+      min-height: 100px;
+    }
+
+    #rankingList ol {
+      padding-left: 20px;
+    }
+
+    a {
+      text-decoration: none;
+      font-size: 18px;
+      color: #28a745;
+    }
+
+    a:hover {
+      color: #218838;
+    }
+
+    #mobileControls {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      margin: 10px 0;
+    }
+
+    .controlRow {
+      display: flex;
+      gap: 10px;
+    }
+
+    .controlBtn {
+      background-color: white;
+      color: black;
+      font-size: 32px;
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      border: 3px solid white;
+      text-align: center;
+      line-height: 70px;
+      font-weight: bold;
+      user-select: none;
+      box-shadow: 0 0 10px white;
+      transition: transform 0.1s ease;
+    }
+
+    .controlBtn:active {
+      background-color: #ccc;
+      transform: scale(0.95);
+    }
+
+    @media (min-width: 768px) {
+      #mobileControls {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>🐍 JOGO DA COBRINHA MINECRAFT</h1>
+  </header>
+
+  <div id="nickname">
+    Coloque um apelido para o ranking:
+    <input type="text" id="playerName" placeholder="Seu apelido" required />
+  </div>
+  <div id="fixedName" style="display:none;"></div>
+
+  <div id="mainArea">
+    <div class="gameArea">
+      <div class="canvas-container">
+        <canvas id="game" width="300" height="300"></canvas>
+        <div id="countdown">3</div>
+      </div>
+
+      <div id="scoreboard">
+        Pontos: <span id="score">0</span>
+      </div>
+
+      <button id="startBtn">Iniciar Jogo</button>
+
+      <!-- SETAS AQUI ENTRE INICIAR E RANKING -->
+      <div id="mobileControls">
+        <div class="controlRow">
+          <div class="controlBtn" onclick="move('up')">↑</div>
+        </div>
+        <div class="controlRow">
+          <div class="controlBtn" onclick="move('left')">←</div>
+          <div class="controlBtn" onclick="move('down')">↓</div>
+          <div class="controlBtn" onclick="move('right')">→</div>
+        </div>
+      </div>
+
+      <button id="rankingBtn">Mostrar/Ocultar Ranking</button>
+      <div id="letterLine"></div>
+    </div>
+
+    <div id="rankingList" style="display: none;"></div>
+  </div>
+
+  <script>
+    const canvas = document.getElementById('game');
+    const ctx = canvas.getContext('2d');
+    const scoreDisplay = document.getElementById('score');
+    const startBtn = document.getElementById('startBtn');
+    const countdownEl = document.getElementById('countdown');
+    const playerNameInput = document.getElementById('playerName');
+    const nicknameDiv = document.getElementById('nickname');
+    const fixedNameDiv = document.getElementById('fixedName');
+    const letterLine = document.getElementById('letterLine');
+    const rankingBtn = document.getElementById('rankingBtn');
+    const rankingList = document.getElementById('rankingList');
+
+    const grid = 20;
+    const tileCount = canvas.width / grid;
+    let snake, food, direction, score, interval, gameStarted = false;
+    let currentLetterIndex = 0;
+    let collectedLetters = [];
+    const phrase = "CORRE-CORRE MONSTROS!!NA AREA".split("");
+
+    function spawnFood() {
+      food = {
+        x: Math.floor(Math.random() * tileCount),
+        y: Math.floor(Math.random() * tileCount)
+      };
+    }
+
+    function draw() {
+      ctx.fillStyle = '#222';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      ctx.fillStyle = 'lime';
+      snake.forEach(s => ctx.fillRect(s.x * grid, s.y * grid, grid - 2, grid - 2));
+
+      ctx.fillStyle = 'red';
+      ctx.fillRect(food.x * grid, food.y * grid, grid - 2, grid - 2);
+    }
+
+    function fillCanvasWithColors() {
+      for (let y = 0; y < tileCount; y++) {
+        for (let x = 0; x < tileCount; x++) {
+          ctx.fillStyle = `hsl(${Math.random() * 360}, 100%, 50%)`;
+          ctx.fillRect(x * grid, y * grid, grid, grid);
+        }
+      }
+    }
+
+    function update() {
+      const head = { x: snake[0].x + direction.x, y: snake[0].y + direction.y };
+
+      if (head.x < 0 || head.x >= tileCount || head.y < 0 || head.y >= tileCount || snake.some(s => s.x === head.x && s.y === head.y)) {
+        clearInterval(interval);
+        gameStarted = false;
+        alert('Game Over! ' + fixedNameDiv.textContent + ' fez ' + score + ' pontos!');
+        saveToRanking(fixedNameDiv.textContent, score);
+        return;
+      }
+
+      snake.unshift(head);
+
+      if (head.x === food.x && head.y === food.y) {
+        score++;
+        scoreDisplay.textContent = score;
+        updatePhrase();
+        spawnFood();
+      } else {
+        snake.pop();
+      }
+
+      draw();
+    }
+
+    function updatePhrase() {
+      if (currentLetterIndex < phrase.length) {
+        collectedLetters.push(phrase[currentLetterIndex]);
+        currentLetterIndex++;
+        letterLine.textContent = collectedLetters.join("");
+        if (currentLetterIndex === phrase.length) {
+          letterLine.innerHTML += "<br><strong>🎉 Parabéns! Você passou de fase!</strong>";
+          letterLine.innerHTML += "<br><a href='jogocobra5.html' target='_blank'>Clique aqui para mais desafios!</a>";
+
+          clearInterval(interval);
+          gameStarted = false;
+          fillCanvasWithColors();
+        }
+      }
+    }
+
+    function startGame() {
+      snake = [{ x: 5, y: 5 }];
+      direction = { x: 1, y: 0 };
+      score = 0;
+      currentLetterIndex = 0;
+      collectedLetters = [];
+      scoreDisplay.textContent = score;
+      letterLine.textContent = "";
+      spawnFood();
+      draw();
+      interval = setInterval(update, 150);
+      gameStarted = true;
+    }
+
+    function startCountdown() {
+      const name = playerNameInput.value.trim();
+      if (gameStarted || !name) {
+        alert("Por favor, insira um apelido antes de começar.");
+        return;
+      }
+
+      fixedNameDiv.textContent = "Jogador: " + name;
+      fixedNameDiv.style.display = "block";
+      nicknameDiv.style.display = "none";
+
+      let count = 3;
+      countdownEl.textContent = count;
+      countdownEl.style.display = 'block';
+
+      const countdownInterval = setInterval(() => {
+        count--;
+        countdownEl.textContent = count;
+        if (count === 0) {
+          clearInterval(countdownInterval);
+          countdownEl.style.display = 'none';
+          startGame();
+        }
+      }, 1000);
+    }
+
+    function saveToRanking(name, score) {
+      let rankings = JSON.parse(localStorage.getItem('snakeRankings') || "[]");
+      rankings.push({ name, score });
+      rankings.sort((a, b) => b.score - a.score);
+      localStorage.setItem('snakeRankings', JSON.stringify(rankings.slice(0, 10)));
+    }
+
+    function showRanking() {
+      let rankings = JSON.parse(localStorage.getItem('snakeRankings') || "[]");
+      rankingList.innerHTML = "<strong>🏆 Ranking:</strong><br><ol>" +
+        rankings.map(r => `<li>${r.name} - ${r.score} pontos</li>`).join('') +
+        "</ol>";
+      rankingList.style.display = rankingList.style.display === 'none' ? 'block' : 'none';
+    }
+
+    startBtn.addEventListener('click', startCountdown);
+    rankingBtn.addEventListener('click', showRanking);
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        if (gameStarted) {
+          clearInterval(interval);
+          gameStarted = false;
+          alert("Jogo finalizado.");
+        }
+        return;
+      }
+      if (!gameStarted) return;
+      if (e.key === 'ArrowUp' && direction.y === 0) direction = { x: 0, y: -1 };
+      if (e.key === 'ArrowDown' && direction.y === 0) direction = { x: 0, y: 1 };
+      if (e.key === 'ArrowLeft' && direction.x === 0) direction = { x: -1, y: 0 };
+      if (e.key === 'ArrowRight' && direction.x === 0) direction = { x: 1, y: 0 };
+    });
+
+    function move(dir) {
+      if (!gameStarted) return;
+      if (dir === 'up' && direction.y === 0) direction = { x: 0, y: -1 };
+      if (dir === 'down' && direction.y === 0) direction = { x: 0, y: 1 };
+      if (dir === 'left' && direction.x === 0) direction = { x: -1, y: 0 };
+      if (dir === 'right' && direction.x === 0) direction = { x: 1, y: 0 };
+    }
+  </script>
+</body>
+</html>
