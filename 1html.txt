@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Computer Space (Remake)</title>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      background: black;
+    }
+    canvas {
+      display: block;
+      margin: 0 auto;
+      background: #000;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="gameCanvas" width="800" height="600"></canvas>
+  <script>
+    const canvas = document.getElementById('gameCanvas');
+    const ctx = canvas.getContext('2d');
+
+    // Jogador
+    const player = {
+      x: 400,
+      y: 500,
+      width: 20,
+      height: 20,
+      angle: 0,
+      speed: 0,
+      rotationSpeed: 0.07
+    };
+
+    const bullets = [];
+    const enemies = [];
+
+    function createEnemy() {
+      enemies.push({
+        x: Math.random() * 780,
+        y: Math.random() * 200,
+        width: 20,
+        height: 20,
+        dx: (Math.random() - 0.5) * 2,
+        dy: (Math.random() - 0.5) * 2
+      });
+    }
+
+    // Criar inimigos iniciais
+    for (let i = 0; i < 5; i++) createEnemy();
+
+    const keys = {};
+
+    document.addEventListener('keydown', e => keys[e.key] = true);
+    document.addEventListener('keyup', e => keys[e.key] = false);
+
+    function shoot() {
+      bullets.push({
+        x: player.x,
+        y: player.y,
+        dx: Math.cos(player.angle) * 5,
+        dy: Math.sin(player.angle) * 5
+      });
+    }
+
+    function update() {
+      if (keys['ArrowLeft']) player.angle -= player.rotationSpeed;
+      if (keys['ArrowRight']) player.angle += player.rotationSpeed;
+      if (keys['ArrowUp']) {
+        player.x += Math.cos(player.angle) * 2;
+        player.y += Math.sin(player.angle) * 2;
+      }
+      if (keys[' ']) shoot();
+
+      bullets.forEach((b, i) => {
+        b.x += b.dx;
+        b.y += b.dy;
+        if (b.x < 0 || b.x > canvas.width || b.y < 0 || b.y > canvas.height) {
+          bullets.splice(i, 1);
+        }
+      });
+
+      enemies.forEach(enemy => {
+        enemy.x += enemy.dx;
+        enemy.y += enemy.dy;
+        if (enemy.x < 0 || enemy.x + enemy.width > canvas.width) enemy.dx *= -1;
+        if (enemy.y < 0 || enemy.y + enemy.height > canvas.height) enemy.dy *= -1;
+      });
+
+      // Colisão
+      bullets.forEach((bullet, bi) => {
+        enemies.forEach((enemy, ei) => {
+          if (
+            bullet.x > enemy.x &&
+            bullet.x < enemy.x + enemy.width &&
+            bullet.y > enemy.y &&
+            bullet.y < enemy.y + enemy.height
+          ) {
+            enemies.splice(ei, 1);
+            bullets.splice(bi, 1);
+            createEnemy(); // Novo inimigo
+          }
+        });
+      });
+    }
+
+    function drawPlayer() {
+      ctx.save();
+      ctx.translate(player.x, player.y);
+      ctx.rotate(player.angle);
+      ctx.beginPath();
+      ctx.moveTo(10, 0);
+      ctx.lineTo(-10, -10);
+      ctx.lineTo(-10, 10);
+      ctx.closePath();
+      ctx.fillStyle = 'white';
+      ctx.fill();
+      ctx.restore();
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      drawPlayer();
+
+      // Balas
+      bullets.forEach(b => {
+        ctx.beginPath();
+        ctx.arc(b.x, b.y, 2, 0, Math.PI * 2);
+        ctx.fillStyle = 'yellow';
+        ctx.fill();
+      });
+
+      // Inimigos
+      enemies.forEach(e => {
+        ctx.fillStyle = 'red';
+        ctx.fillRect(e.x, e.y, e.width, e.height);
+      });
+    }
+
+    function gameLoop() {
+      update();
+      draw();
+      requestAnimationFrame(gameLoop);
+    }
+
+    gameLoop();
+  </script>
+</body>
+</html>
